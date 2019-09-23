@@ -1,4 +1,4 @@
-package com.example.poryectoinicial.view
+package com.example.poryectoinicial.view.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.poryectoinicial.view.Fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_proyectosFragment"
+            app:destination="@id/proyectosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/proyectosFragment"
+        android:name="com.example.poryectoinicial.view.Fragments.ProyectosFragment"
+        android:label="fragment_proyectos"
+        tools:layout="@layout/fragment_proyectos" >
+        <action
+            android:id="@+id/action_proyectosFragment_to_editProyectosFragment"
+            app:destination="@id/editProyectosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProyectosFragment"
+        android:name="com.example.poryectoinicial.view.Fragments.EditProyectosFragment"
+        android:label="fragment_edit_proyectos"
+        tools:layout="@layout/fragment_edit_proyectos" />
+</navigation>

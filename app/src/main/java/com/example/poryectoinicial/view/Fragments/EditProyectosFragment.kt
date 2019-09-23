@@ -1,4 +1,4 @@
-package com.example.poryectoinicial.view
+package com.example.poryectoinicial.view.Fragments
 
 
 import android.os.Bundle
