@@ -7,4 +7,6 @@ class Proyecto {
     var titulo: String = ""
     var descripcion: String = ""
     var fecestimada: String = ""
+    var fecentrega: String = ""
+    var horas: String = ""
 }

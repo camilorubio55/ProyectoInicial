@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".view.Fragments.ProyectosFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RcProyectos"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/SwRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/cardview_proyectos"
-        tools:itemCount="8"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RcProyectos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/cardview_proyectos"
+            tools:itemCount="8"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </FrameLayout>

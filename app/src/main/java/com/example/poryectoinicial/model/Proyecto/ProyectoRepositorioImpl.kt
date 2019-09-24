@@ -12,11 +12,12 @@ import retrofit2.Response
 
 class ProyectoRepositorioImpl {
 
-    private var proyectos = MutableLiveData<ArrayList<Proyecto>>()
+    private var proyectos = MutableLiveData<MutableList<Proyecto>>()
+    private var editproyecto = MutableLiveData<ArrayList<Proyecto>>()
 
-    fun getallProyectosAPI(usuid: Int): MutableLiveData<ArrayList<Proyecto>>{
+    fun getallProyectosAPI(usuid: Int): MutableLiveData<MutableList<Proyecto>>{
 
-        var jsonObject: JsonObject = JsonObject()
+        var jsonObject = JsonObject()
         jsonObject.addProperty("usuid", usuid)
         var mAPIService: APIService?
 
@@ -38,5 +39,31 @@ class ProyectoRepositorioImpl {
             e.stackTrace
         }
         return proyectos
+    }
+
+    fun getdataProyectoAPI(proyectoid : Int): MutableLiveData<ArrayList<Proyecto>>{
+
+        var jsonObject = JsonObject()
+        jsonObject.addProperty("proyectoid", proyectoid)
+        var mAPIService: APIService?
+
+        mAPIService = APIUtils.apiService
+        try {
+            mAPIService!!.getdataproyecto(jsonObject).enqueue(object :
+                Callback<ArrayList<Proyecto>> {
+                override fun onFailure(call: Call<ArrayList<Proyecto>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
+                    var proyect = response.body()
+                    editproyecto.value = proyect
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
+        return editproyecto
     }
 }

@@ -6,4 +6,7 @@
     <string name="titulo_proyecto">Titulo</string>
     <string name="descripcion_proyecto">Descripcion</string>
     <string name="numero_proyecto">#</string>
+    <string name="texto_fecestimada">Fecha Estimada</string>
+    <string name="texto_fecentrega">Fecha Entrega</string>
+    <string name="texto_horas">Horas</string>
 </resources>
