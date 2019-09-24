@@ -6,12 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.poryectoinicial.R
+import com.example.poryectoinicial.view.Adapters.AdapterProyectos
 import com.example.poryectoinicial.viewmodel.ProyectosViewModel
+import kotlinx.android.synthetic.main.fragment_proyectos.*
+import androidx.lifecycle.Observer
+import com.example.poryectoinicial.model.Proyecto.Proyecto
 
 class ProyectosFragment : Fragment() {
 
     private var proyectosViewModel: ProyectosViewModel? = ProyectosViewModel()
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adaptador: AdapterProyectos? = null
     private var rta = 0
 
     override fun onCreateView(
@@ -28,5 +36,12 @@ class ProyectosFragment : Fragment() {
             rta = getArguments()?.getString("USUID")!!.toInt()
         }
         proyectosViewModel?.getallProyectos(rta)
+        proyectosViewModel?.getproyectos()?.observe(this, Observer {proyecto: ArrayList<Proyecto> ->
+            RcProyectos?.setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            RcProyectos?.layoutManager = layoutManager
+            adaptador = AdapterProyectos(context, proyecto)
+            RcProyectos.adapter = adaptador
+        })
     }
 }
