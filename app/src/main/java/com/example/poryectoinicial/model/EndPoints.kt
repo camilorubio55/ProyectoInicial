@@ -21,6 +21,9 @@ interface APIService {
 
     @POST("codigophp/API2/Controller/GetDataProyecto.php")
     fun getdataproyecto(@Body proyecto: JsonObject?): Call<ArrayList<Proyecto>>
+
+    @POST("codigophp/API2/Controller/EliminarProyecto.php")
+    fun eliminarproyecto(@Body proyecto: JsonObject?): Call<ArrayList<Proyecto>>
 }
 
 object APIUtils{

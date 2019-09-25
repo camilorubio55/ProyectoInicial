@@ -25,11 +25,6 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loginViewModel = ViewModelProviders.of(activity!!).get(LoginViewModel(activity!!.application)::class.java)
-    }*/
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BtIngresar.setOnClickListener {
@@ -53,6 +48,4 @@ class LoginFragment : Fragment() {
         bundle.putString("USUID",usuid.toString())
         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_proyectosFragment, bundle)
     }
-
-
 }

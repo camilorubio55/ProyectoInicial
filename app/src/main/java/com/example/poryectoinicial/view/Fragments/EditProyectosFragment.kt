@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.poryectoinicial.R
+import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.viewmodel.ProyectosViewModel
 import kotlinx.android.synthetic.main.cardview_proyectos.*
 import kotlinx.android.synthetic.main.fragment_edit_proyectos.*
@@ -30,13 +31,23 @@ class EditProyectosFragment : Fragment() {
         arguments.let {
             rta = getArguments()?.getString("PROYECTOID")!!.toInt()
         }
-        proyectosViewModel?.getdataProyectos(rta)
+        if(!rta.equals(0)){
+            proyectosViewModel?.getdataProyectos(rta)
+            consultarDetalleProyecto()
+        }
+    }
+
+    fun consultarDetalleProyecto(){
         proyectosViewModel?.geteditproyectos()?.observe(this, Observer {
-            EdTituloProyecto.setText(it.get(0).titulo)
-            EdDescripcionProyecto.setText(it.get(0).descripcion)
-            EdFechaEnt.setText(it.get(0).fecentrega)
-            EdFechaEst.setText(it.get(0).fecestimada)
-            EdHoras.setText(it.get(0).horas)
+            setData(it)
         })
+    }
+
+    fun setData(detalleproyecto: ArrayList<Proyecto>){
+        EdTituloProyecto.setText(detalleproyecto.get(0).titulo)
+        EdDescripcionProyecto.setText(detalleproyecto.get(0).descripcion)
+        EdFechaEnt.setText(detalleproyecto.get(0).fecentrega)
+        EdFechaEst.setText(detalleproyecto.get(0).fecestimada)
+        EdHoras.setText(detalleproyecto.get(0).horas)
     }
 }

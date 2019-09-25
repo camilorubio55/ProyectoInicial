@@ -17,6 +17,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.view.Interfaces.ClickListener
+import com.example.poryectoinicial.view.Interfaces.LongClickListener
+import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.alert
 
 class ProyectosFragment : Fragment() {
 
@@ -54,9 +57,13 @@ class ProyectosFragment : Fragment() {
             consultarProyectos()
             SwRefresh.isRefreshing = false
         }
+        BtFloatAction.setOnClickListener{view: View ->
+            navEditProyectos(view,0)
+        }
     }
 
     fun consultarProyectos(){
+        proyectosViewModel?.getallProyectos(rta)
         proyectosViewModel?.getproyectos()?.observe(this, Observer {
             manejador(it)
         })
@@ -67,6 +74,10 @@ class ProyectosFragment : Fragment() {
             override fun onClick(vista: View, index: Int) {
                 navEditProyectos(vista, listdata.get(index).proyectoid.toInt())
             }
+        }, object : LongClickListener {
+            override fun longClick(vista: View, index: Int) {
+                eliminarProyecto(listdata.get(index).proyectoid.toInt())
+            }
         })
     }
 
@@ -74,5 +85,25 @@ class ProyectosFragment : Fragment() {
         val bundle = Bundle()
         bundle.putString("PROYECTOID",proyectoid.toString())
         Navigation.findNavController(view).navigate(R.id.action_proyectosFragment_to_editProyectosFragment, bundle)
+    }
+
+    fun eliminarProyecto(proyectoid: Int){
+        alert {
+            title = "Eliminar proyecto $proyectoid ?"
+            message = "Al eliminar el proyecto se eliminaran las tareas realcionadas"
+            positiveButton ( "Si") {
+                proyectosViewModel?.eliminarProyecto(proyectoid)
+                respuestaEliminarProyecto()
+            }
+            negativeButton ( "No" ) {
+            }
+        }.show ()
+    }
+
+    fun respuestaEliminarProyecto(){
+        proyectosViewModel?.geteliminaproyecto()?.observe(this, Observer {
+            Toast.makeText(context, it.get(0).mensaje, Toast.LENGTH_SHORT).show()
+            //consultarProyectos()
+        })
     }
 }

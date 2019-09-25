@@ -14,13 +14,12 @@ class ProyectoRepositorioImpl {
 
     private var proyectos = MutableLiveData<MutableList<Proyecto>>()
     private var editproyecto = MutableLiveData<ArrayList<Proyecto>>()
+    private var eliminarproyecto = MutableLiveData<ArrayList<Proyecto>>()
 
     fun getallProyectosAPI(usuid: Int): MutableLiveData<MutableList<Proyecto>>{
-
         var jsonObject = JsonObject()
         jsonObject.addProperty("usuid", usuid)
         var mAPIService: APIService?
-
         mAPIService = APIUtils.apiService
         try {
             mAPIService!!.getallproyectos(jsonObject).enqueue(object :
@@ -42,11 +41,9 @@ class ProyectoRepositorioImpl {
     }
 
     fun getdataProyectoAPI(proyectoid : Int): MutableLiveData<ArrayList<Proyecto>>{
-
         var jsonObject = JsonObject()
         jsonObject.addProperty("proyectoid", proyectoid)
         var mAPIService: APIService?
-
         mAPIService = APIUtils.apiService
         try {
             mAPIService!!.getdataproyecto(jsonObject).enqueue(object :
@@ -65,5 +62,29 @@ class ProyectoRepositorioImpl {
             e.stackTrace
         }
         return editproyecto
+    }
+
+    fun eliminarProyectoAPI(proyectoid : Int): MutableLiveData<ArrayList<Proyecto>>{
+        var jsonObject = JsonObject()
+        jsonObject.addProperty("proyectoid", proyectoid)
+        var mAPIService: APIService?
+        mAPIService = APIUtils.apiService
+        try {
+            mAPIService!!.eliminarproyecto(jsonObject).enqueue(object :
+                Callback<ArrayList<Proyecto>> {
+                override fun onFailure(call: Call<ArrayList<Proyecto>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
+                    var proyect = response.body()
+                    eliminarproyecto.value = proyect
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
+        return eliminarproyecto
     }
 }
