@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.viewmodel.ProyectosViewModel
@@ -15,8 +16,16 @@ import kotlinx.android.synthetic.main.fragment_edit_proyectos.*
 
 class EditProyectosFragment : Fragment() {
 
-    private var proyectosViewModel: ProyectosViewModel? = ProyectosViewModel()
+    private lateinit var proyectosViewModel: ProyectosViewModel
     private var rta = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
+        proyectosViewModel?.geteditproyectos()?.observe(this, Observer {
+            setData(it)
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,22 +41,24 @@ class EditProyectosFragment : Fragment() {
             rta = getArguments()?.getString("PROYECTOID")!!.toInt()
         }
         if(!rta.equals(0)){
-            proyectosViewModel?.getdataProyectos(rta)
             consultarDetalleProyecto()
         }
+        //BtGuardarProyecto.setOnLongClickListener {
+
+        //}
     }
 
     fun consultarDetalleProyecto(){
-        proyectosViewModel?.geteditproyectos()?.observe(this, Observer {
-            setData(it)
-        })
+        proyectosViewModel?.getdataProyectos(rta)
     }
 
-    fun setData(detalleproyecto: ArrayList<Proyecto>){
-        EdTituloProyecto.setText(detalleproyecto.get(0).titulo)
-        EdDescripcionProyecto.setText(detalleproyecto.get(0).descripcion)
-        EdFechaEnt.setText(detalleproyecto.get(0).fecentrega)
-        EdFechaEst.setText(detalleproyecto.get(0).fecestimada)
-        EdHoras.setText(detalleproyecto.get(0).horas)
+    fun setData(detalleproyecto: MutableList<Proyecto>){
+        if(!detalleproyecto.isNullOrEmpty()){
+            EdTituloProyecto.setText(detalleproyecto.get(0).titulo)
+            EdDescripcionProyecto.setText(detalleproyecto.get(0).descripcion)
+            EdFechaEnt.setText(detalleproyecto.get(0).fecentrega)
+            EdFechaEst.setText(detalleproyecto.get(0).fecestimada)
+            EdHoras.setText(detalleproyecto.get(0).horas)
+        }
     }
 }

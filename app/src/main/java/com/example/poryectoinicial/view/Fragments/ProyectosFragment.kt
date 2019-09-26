@@ -14,26 +14,38 @@ import com.example.poryectoinicial.view.Adapters.AdapterProyectos
 import com.example.poryectoinicial.viewmodel.ProyectosViewModel
 import kotlinx.android.synthetic.main.fragment_proyectos.*
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.view.Interfaces.ClickListener
 import com.example.poryectoinicial.view.Interfaces.LongClickListener
-import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 
 class ProyectosFragment : Fragment() {
 
-    private var proyectosViewModel: ProyectosViewModel? = ProyectosViewModel()
+    private lateinit var proyectosViewModel: ProyectosViewModel
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adaptador: AdapterProyectos? = null
+    private lateinit var adaptador: AdapterProyectos
     private var rta = 0
 
-    fun iniRecycler(){
-        adaptador = AdapterProyectos()
-        RcProyectos.setHasFixedSize(true)
-        layoutManager = LinearLayoutManager(context)
-        RcProyectos.layoutManager = layoutManager
-        RcProyectos.adapter = adaptador
+    fun manejador(listdata: MutableList<Proyecto>){
+        adaptador.setData(listdata, object : ClickListener {
+            override fun onClick(vista: View, index: Int) {
+                navEditProyectos(vista, listdata.get(index).proyectoid.toInt())
+            }
+        }, object : LongClickListener {
+            override fun longClick(vista: View, index: Int) {
+                eliminarProyecto(listdata.get(index).proyectoid.toInt())
+            }
+        })
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
+        proyectosViewModel.getproyectos().observe(this, Observer {
+            manejador(it)
+        })
     }
 
     override fun onCreateView(
@@ -50,8 +62,8 @@ class ProyectosFragment : Fragment() {
             rta = getArguments()?.getString("USUID")!!.toInt()
         }
         iniRecycler()
-        proyectosViewModel?.getallProyectos(rta)
-        consultarProyectos()
+
+        //proyectosViewModel?.getallProyectos(rta)
         SwRefresh.setOnRefreshListener {
             SwRefresh.isRefreshing = true
             consultarProyectos()
@@ -62,32 +74,30 @@ class ProyectosFragment : Fragment() {
         }
     }
 
-    fun consultarProyectos(){
-        proyectosViewModel?.getallProyectos(rta)
-        proyectosViewModel?.getproyectos()?.observe(this, Observer {
-            manejador(it)
-        })
+    override fun onResume() {
+        super.onResume()
+        consultarProyectos()
     }
 
-    fun manejador(listdata: MutableList<Proyecto>){
-        adaptador?.setData(listdata, object : ClickListener {
-            override fun onClick(vista: View, index: Int) {
-                navEditProyectos(vista, listdata.get(index).proyectoid.toInt())
-            }
-        }, object : LongClickListener {
-            override fun longClick(vista: View, index: Int) {
-                eliminarProyecto(listdata.get(index).proyectoid.toInt())
-            }
-        })
+    private fun iniRecycler(){
+        adaptador = AdapterProyectos()
+        RcProyectos.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(context)
+        RcProyectos.layoutManager = layoutManager
+        RcProyectos.adapter = adaptador
     }
 
-    fun navEditProyectos(view: View, proyectoid: Int?){
+    private fun consultarProyectos(){
+        proyectosViewModel.getallProyectos(rta)
+    }
+
+    private fun navEditProyectos(view: View, proyectoid: Int?){
         val bundle = Bundle()
         bundle.putString("PROYECTOID",proyectoid.toString())
         Navigation.findNavController(view).navigate(R.id.action_proyectosFragment_to_editProyectosFragment, bundle)
     }
 
-    fun eliminarProyecto(proyectoid: Int){
+    private fun eliminarProyecto(proyectoid: Int){
         alert {
             title = "Eliminar proyecto $proyectoid ?"
             message = "Al eliminar el proyecto se eliminaran las tareas realcionadas"
@@ -100,7 +110,7 @@ class ProyectosFragment : Fragment() {
         }.show ()
     }
 
-    fun respuestaEliminarProyecto(){
+    private fun respuestaEliminarProyecto(){
         proyectosViewModel?.geteliminaproyecto()?.observe(this, Observer {
             Toast.makeText(context, it.get(0).mensaje, Toast.LENGTH_SHORT).show()
             //consultarProyectos()

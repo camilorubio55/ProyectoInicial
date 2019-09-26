@@ -8,111 +8,119 @@
     android:layout_height="match_parent"
     tools:context=".view.Fragments.EditProyectosFragment">
 
-    <EditText
-        android:id="@+id/EdTituloProyecto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:ems="10"
-        android:hint="@string/titulo_proyecto"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/EdDescripcionProyecto"
-        android:layout_width="383dp"
-        android:layout_height="213dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/descripcion_proyecto"
-        android:inputType="textMultiLine"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdTituloProyecto"
-        app:layout_constraintVertical_bias="0.123" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutCompat2"
-        android:layout_width="320dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdDescripcionProyecto">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/TvFechaEst"
+            <EditText
+                android:id="@+id/EdTituloProyecto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/titulo_proyecto"
+                android:inputType="textPersonName"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/EdDescripcionProyecto"
+                android:layout_width="match_parent"
+                android:layout_height="212dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/descripcion_proyecto"
+                android:inputType="textMultiLine" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TvFechaEst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/texto_fecestimada"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/EdFechaEst"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:inputType="date"
+                android:textSize="24sp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TvFechaEnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/texto_fecentrega"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/EdFechaEnt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:inputType="date"
+                android:textSize="24sp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TvHoras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/texto_horas"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:id="@+id/EdHoras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="24sp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <Button
+            android:id="@+id/BtGuardarProyecto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/texto_fecestimada"
-            android:textSize="24sp" />
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/texto_btproyectos"
+            app:elevation="12dp"
+            />
 
-        <EditText
-            android:id="@+id/EdFechaEst"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="395dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.407"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2">
-
-        <TextView
-            android:id="@+id/TvFechaEnt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_fecentrega"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/EdFechaEnt"
-            android:layout_width="229dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="386dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="128dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.407"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2">
-
-        <TextView
-            android:id="@+id/TvHoras"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_horas"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/EdHoras"
-            android:layout_width="229dp"
-            android:layout_height="wrap_content"
-            android:ems="10" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
