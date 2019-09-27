@@ -6,24 +6,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.viewmodel.ProyectosViewModel
-import kotlinx.android.synthetic.main.cardview_proyectos.*
 import kotlinx.android.synthetic.main.fragment_edit_proyectos.*
 
 class EditProyectosFragment : Fragment() {
 
     private lateinit var proyectosViewModel: ProyectosViewModel
+    private var proyecto: Proyecto = Proyecto()
     private var rta = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
-        proyectosViewModel?.geteditproyectos()?.observe(this, Observer {
-            setData(it)
+        proyectosViewModel.geteditproyectos().observe(this, Observer {
+            if(!rta.equals(0))
+                setData(it)
+        })
+
+        proyectosViewModel.getactualizarproyecto().observe(this, Observer {
+            mostrarrespuesta(it)
+        })
+        proyectosViewModel.getinsertarproyecto().observe(this, Observer {
+            mostrarrespuesta(it)
         })
     }
 
@@ -40,25 +49,63 @@ class EditProyectosFragment : Fragment() {
         arguments.let {
             rta = getArguments()?.getString("PROYECTOID")!!.toInt()
         }
-        if(!rta.equals(0)){
+        if(!rta.equals(0))
             consultarDetalleProyecto()
+        else
+            limpiarcampos()
+        BtGuardarProyecto.setOnClickListener {
+            val objeto = construirobjeto()
+            if(!rta.equals(0))
+                actualizarproyecto(objeto)
+            else
+                insertarproyecto(objeto)
+            proyectosViewModel.limpiarObjetos()
         }
-        //BtGuardarProyecto.setOnLongClickListener {
+    }
 
-        //}
+    fun construirobjeto(): Proyecto{
+        proyecto.proyectoid = rta.toString()
+        proyecto.titulo = EdTituloProyecto.text.toString()
+        proyecto.descripcion = EdDescripcionProyecto.text.toString()
+        proyecto.fecestimada = EdFechaEst.text.toString()
+        proyecto.fecentrega = EdFechaEnt.text.toString()
+        proyecto.horas = EdHoras.text.toString()
+        proyecto.usuid = LoginFragment.usuid.toString()
+
+        return proyecto
     }
 
     fun consultarDetalleProyecto(){
-        proyectosViewModel?.getdataProyectos(rta)
+        proyectosViewModel.getdataProyectos(rta)
     }
 
-    fun setData(detalleproyecto: MutableList<Proyecto>){
-        if(!detalleproyecto.isNullOrEmpty()){
-            EdTituloProyecto.setText(detalleproyecto.get(0).titulo)
-            EdDescripcionProyecto.setText(detalleproyecto.get(0).descripcion)
-            EdFechaEnt.setText(detalleproyecto.get(0).fecentrega)
-            EdFechaEst.setText(detalleproyecto.get(0).fecestimada)
-            EdHoras.setText(detalleproyecto.get(0).horas)
+    fun actualizarproyecto(objeto: Proyecto){
+        proyectosViewModel.actualizarProyecto(objeto)
+    }
+
+    fun insertarproyecto(objeto: Proyecto){
+        proyectosViewModel.insertarProyecto(objeto)
+    }
+
+    fun mostrarrespuesta(respuesta: Proyecto){
+        Toast.makeText(context,respuesta.mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    fun setData(detalleproyecto: Proyecto){
+        if(!detalleproyecto.toString().isNullOrEmpty()){
+            EdTituloProyecto.setText(detalleproyecto.titulo)
+            EdDescripcionProyecto.setText(detalleproyecto.descripcion)
+            EdFechaEnt.setText(detalleproyecto.fecentrega)
+            EdFechaEst.setText(detalleproyecto.fecestimada)
+            EdHoras.setText(detalleproyecto.horas)
         }
+    }
+
+    fun limpiarcampos(){
+        EdTituloProyecto.setText("")
+        EdDescripcionProyecto.setText("")
+        EdFechaEnt.setText("")
+        EdFechaEst.setText("")
+        EdHoras.setText("")
     }
 }

@@ -10,10 +10,12 @@ import com.example.poryectoinicial.model.Proyecto.ProyectoRepositorioImpl
 
 class ProyectosViewModel(application: Application) : AndroidViewModel(application) {
 
-    private  var proyectoRepositorioImpl: ProyectoRepositorioImpl? = ProyectoRepositorioImpl()
+    private var proyectoRepositorioImpl: ProyectoRepositorioImpl? = ProyectoRepositorioImpl()
     private var proyectos = MutableLiveData<MutableList<Proyecto>>()
-    private var editproyecto = MutableLiveData<MutableList<Proyecto>>()
+    private var editproyecto = MutableLiveData<Proyecto>()
     private var eliminarproyecto = MutableLiveData<MutableList<Proyecto>>()
+    private var actualizarproyecto = MutableLiveData<Proyecto>()
+    private var insertarproyecto = MutableLiveData<Proyecto>()
 
     fun getallProyectos(usuid: Int){
         proyectoRepositorioImpl!!.getallProyectosAPI(usuid){
@@ -27,15 +29,36 @@ class ProyectosViewModel(application: Application) : AndroidViewModel(applicatio
         proyectoRepositorioImpl!!.getdataProyectoAPI(proyectoid){
             this.editproyecto.value = it
         }
-        //this.editproyecto.postValue(editproyecto)
     }
 
-    fun geteditproyectos(): LiveData<MutableList<Proyecto>> = this.editproyecto
+    fun geteditproyectos(): LiveData<Proyecto> = this.editproyecto
 
     fun eliminarProyecto(proyectoid: Int){
-        val eliminarproyecto: MutableList<Proyecto> = proyectoRepositorioImpl!!.eliminarProyectoAPI(proyectoid)
-        this.eliminarproyecto.postValue(eliminarproyecto)
+        proyectoRepositorioImpl!!.eliminarProyectoAPI(proyectoid){
+            this.eliminarproyecto.value = it
+        }
     }
 
     fun geteliminaproyecto(): LiveData<MutableList<Proyecto>> = this.eliminarproyecto
+
+    fun actualizarProyecto(proyecto: Proyecto){
+        proyectoRepositorioImpl!!.actualizarProyectoAPI(proyecto){
+            this.actualizarproyecto.value = it
+        }
+    }
+
+    fun getactualizarproyecto(): LiveData<Proyecto> = this.actualizarproyecto
+
+    fun insertarProyecto(proyecto: Proyecto){
+        proyectoRepositorioImpl!!.insertarProyectoAPI(proyecto){
+            this.insertarproyecto.value = it
+        }
+    }
+
+    fun getinsertarproyecto(): LiveData<Proyecto> = this.insertarproyecto
+
+    fun limpiarObjetos(){
+        this.insertarproyecto.value = null
+        this.actualizarproyecto.value = null
+    }
 }

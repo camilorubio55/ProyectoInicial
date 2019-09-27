@@ -2,18 +2,20 @@ package com.example.poryectoinicial.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.example.poryectoinicial.model.Login.LoginRepositorioImpl
 
-class LoginViewModel/*(application: Application) : AndroidViewModel(application)*/{
+class LoginViewModel (application: Application) : AndroidViewModel(application){
 
     private  var loginRepositorioImpl: LoginRepositorioImpl? = LoginRepositorioImpl()
-    private var usuid: Int? = 0
+    private var usuid = MutableLiveData<Int>()
 
     fun loginUsuario(username: String, pass: String){
-        val usuid: Int? = loginRepositorioImpl?.loginAPI(username,pass)
-        this.usuid = usuid
+        loginRepositorioImpl!!.loginAPI(username,pass){
+            this.usuid.value = it
+        }
     }
 
-    fun getUsuid(): Int? = usuid
+    fun getUsuid(): MutableLiveData<Int> = this.usuid
 
 }

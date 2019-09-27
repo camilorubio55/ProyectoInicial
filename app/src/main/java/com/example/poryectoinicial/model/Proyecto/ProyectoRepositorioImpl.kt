@@ -1,31 +1,20 @@
 package com.example.poryectoinicial.model.Proyecto
 
 import android.util.Log
-import androidx.annotation.UiThread
-import androidx.lifecycle.MutableLiveData
 import com.example.poryectoinicial.model.APIService
 import com.example.poryectoinicial.model.APIUtils
-import com.example.poryectoinicial.model.Login.Login
 import com.google.gson.JsonObject
-import org.jetbrains.anko.custom.async
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ProyectoRepositorioImpl {
 
-    private var proyectos = mutableListOf<Proyecto>()
-    private var editproyecto = mutableListOf<Proyecto>()
-    private var eliminarproyecto = mutableListOf<Proyecto>()
-
     fun getallProyectosAPI(usuid: Int, completion: (MutableList<Proyecto>) -> Unit){
-        var jsonObject = JsonObject()
+        val jsonObject = JsonObject()
         jsonObject.addProperty("usuid", usuid)
-        var mAPIService: APIService?
+        val mAPIService: APIService
         mAPIService = APIUtils.apiService
-
         try {
             mAPIService.getallproyectos(jsonObject).enqueue(object :
                 Callback<ArrayList<Proyecto>> {
@@ -35,9 +24,8 @@ class ProyectoRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
-                    var proyect = response.body() as MutableList<Proyecto>
+                    val proyect = response.body() as MutableList<Proyecto>
                     completion(proyect)
-                    //proyectos.addAll(proyect)
                 }
             })
         }catch (e: Exception){
@@ -45,10 +33,10 @@ class ProyectoRepositorioImpl {
         }
     }
 
-    fun getdataProyectoAPI(proyectoid : Int, completion: (MutableList<Proyecto>) -> Unit){
-        var jsonObject = JsonObject()
+    fun getdataProyectoAPI(proyectoid : Int, completion: (Proyecto) -> Unit){
+        val jsonObject = JsonObject()
         jsonObject.addProperty("proyectoid", proyectoid)
-        var mAPIService: APIService?
+        val mAPIService: APIService
         mAPIService = APIUtils.apiService
         try {
             mAPIService.getdataproyecto(jsonObject).enqueue(object :
@@ -59,9 +47,8 @@ class ProyectoRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
-                    var proyect = response.body() as MutableList<Proyecto>
+                    val proyect = response.body()!!.get(0)
                     completion(proyect)
-                    //editproyecto.addAll(proyect)
                 }
             })
         }catch (e: Exception){
@@ -69,10 +56,10 @@ class ProyectoRepositorioImpl {
         }
     }
 
-    fun eliminarProyectoAPI(proyectoid : Int): MutableList<Proyecto>{
-        var jsonObject = JsonObject()
+    fun eliminarProyectoAPI(proyectoid : Int, completion: (MutableList<Proyecto>) -> Unit){
+        val jsonObject = JsonObject()
         jsonObject.addProperty("proyectoid", proyectoid)
-        var mAPIService: APIService?
+        val mAPIService: APIService?
         mAPIService = APIUtils.apiService
         try {
             mAPIService.eliminarproyecto(jsonObject).enqueue(object :
@@ -83,13 +70,69 @@ class ProyectoRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
-                    var proyect = response.body() as MutableList<Proyecto>
-                    eliminarproyecto.addAll(proyect)
+                    val proyect = response.body() as MutableList<Proyecto>
+                    completion(proyect)
                 }
             })
         }catch (e: Exception){
             e.stackTrace
         }
-        return eliminarproyecto
+    }
+
+    fun actualizarProyectoAPI(proyecto : Proyecto, completion: (Proyecto) -> Unit){
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("proyectoid", proyecto.proyectoid)
+        jsonObject.addProperty("titulo", proyecto.titulo)
+        jsonObject.addProperty("descripcion", proyecto.descripcion)
+        jsonObject.addProperty("fecestimada", proyecto.fecestimada)
+        jsonObject.addProperty("fecentrega", proyecto.fecentrega)
+        jsonObject.addProperty("horas", proyecto.horas)
+        jsonObject.addProperty("usuid", proyecto.usuid)
+        val mAPIService: APIService?
+        mAPIService = APIUtils.apiService
+        try {
+            mAPIService.actualizarproyecto(jsonObject).enqueue(object :
+                Callback<ArrayList<Proyecto>> {
+                override fun onFailure(call: Call<ArrayList<Proyecto>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
+                    val proyect = response.body()!!.get(0)
+                    completion(proyect)
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
+    }
+
+    fun insertarProyectoAPI(proyecto : Proyecto, completion: (Proyecto) -> Unit){
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("titulo", proyecto.titulo)
+        jsonObject.addProperty("descripcion", proyecto.descripcion)
+        jsonObject.addProperty("fecestimada", proyecto.fecestimada)
+        jsonObject.addProperty("fecentrega", proyecto.fecentrega)
+        jsonObject.addProperty("horas", proyecto.horas)
+        jsonObject.addProperty("usuid", proyecto.usuid)
+        val mAPIService: APIService?
+        mAPIService = APIUtils.apiService
+        try {
+            mAPIService.insertarproyecto(jsonObject).enqueue(object :
+                Callback<ArrayList<Proyecto>> {
+                override fun onFailure(call: Call<ArrayList<Proyecto>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
+                    val proyect = response.body()!!.get(0)
+                    completion(proyect)
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
     }
 }

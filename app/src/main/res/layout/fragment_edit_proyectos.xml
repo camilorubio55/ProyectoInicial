@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".view.Fragments.EditProyectosFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -23,6 +24,9 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <EditText
@@ -36,7 +40,7 @@
             <EditText
                 android:id="@+id/EdDescripcionProyecto"
                 android:layout_width="match_parent"
-                android:layout_height="212dp"
+                android:layout_height="180dp"
                 android:gravity="center_horizontal"
                 android:hint="@string/descripcion_proyecto"
                 android:inputType="textMultiLine" />
@@ -62,7 +66,7 @@
                 android:layout_marginLeft="10dp"
                 android:ems="10"
                 android:inputType="date"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -85,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:inputType="date"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -99,14 +103,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/texto_horas"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/EdHoras"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -114,11 +118,10 @@
             android:id="@+id/BtGuardarProyecto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:text="@string/texto_btproyectos"
-            app:elevation="12dp"
-            />
+            app:elevation="12dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

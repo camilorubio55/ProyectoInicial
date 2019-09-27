@@ -9,4 +9,5 @@ class Proyecto {
     var fecestimada: String = ""
     var fecentrega: String = ""
     var horas: String = ""
+    var usuid: String = ""
 }

@@ -10,33 +10,29 @@ import retrofit2.Response
 
 class LoginRepositorioImpl {
 
-    private var login: Int? = 0
-
-    fun loginAPI(username: String, pass: String) : Int?{
-
-        var jsonObject: JsonObject = JsonObject()
+    fun loginAPI(username: String, pass: String, completion: (Int) -> Unit){
+        val jsonObject = JsonObject()
         jsonObject.addProperty("codigo",username)
         jsonObject.addProperty("contrasena",pass)
-        var mAPIService: APIService?
-
+        val mAPIService: APIService?
         mAPIService = APIUtils.apiService
         try {
-            mAPIService!!.login(jsonObject).enqueue(object :
+            mAPIService.login(jsonObject).enqueue(object :
                 Callback<ArrayList<Login>> {
                 override fun onFailure(call: Call<ArrayList<Login>>, t: Throwable) {
-                    login = 0
+                    val login = 0
+                    completion(login)
                     Log.d("--- respuestaonF", "onFailure")
                     t.printStackTrace()
                 }
 
                 override fun onResponse(call: Call<ArrayList<Login>>, response: Response<ArrayList<Login>>) {
-                    login = response.body()?.get(0)?.usuid?.toInt()
+                    val login = response.body()?.get(0)?.usuid?.toInt()
+                    completion(login!!.toInt())
                 }
             })
         }catch (e: Exception){
             e.stackTrace
-            return null
         }
-        return login!!.toInt()
     }
 }

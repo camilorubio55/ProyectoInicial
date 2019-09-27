@@ -46,6 +46,10 @@ class ProyectosFragment : Fragment() {
         proyectosViewModel.getproyectos().observe(this, Observer {
             manejador(it)
         })
+
+        proyectosViewModel.geteliminaproyecto().observe(this, Observer {
+            respuestaEliminarProyecto(it)
+        })
     }
 
     override fun onCreateView(
@@ -62,8 +66,6 @@ class ProyectosFragment : Fragment() {
             rta = getArguments()?.getString("USUID")!!.toInt()
         }
         iniRecycler()
-
-        //proyectosViewModel?.getallProyectos(rta)
         SwRefresh.setOnRefreshListener {
             SwRefresh.isRefreshing = true
             consultarProyectos()
@@ -100,20 +102,17 @@ class ProyectosFragment : Fragment() {
     private fun eliminarProyecto(proyectoid: Int){
         alert {
             title = "Eliminar proyecto $proyectoid ?"
-            message = "Al eliminar el proyecto se eliminaran las tareas realcionadas"
+            message = "Al eliminar el proyecto se eliminaran las tareas relacionadas"
             positiveButton ( "Si") {
-                proyectosViewModel?.eliminarProyecto(proyectoid)
-                respuestaEliminarProyecto()
+                proyectosViewModel.eliminarProyecto(proyectoid)
+                //respuestaEliminarProyecto()
             }
             negativeButton ( "No" ) {
             }
         }.show ()
     }
 
-    private fun respuestaEliminarProyecto(){
-        proyectosViewModel?.geteliminaproyecto()?.observe(this, Observer {
-            Toast.makeText(context, it.get(0).mensaje, Toast.LENGTH_SHORT).show()
-            //consultarProyectos()
-        })
+    private fun respuestaEliminarProyecto(respuesta: MutableList<Proyecto>){
+        Toast.makeText(context, respuesta.get(0).mensaje, Toast.LENGTH_SHORT).show()
     }
 }

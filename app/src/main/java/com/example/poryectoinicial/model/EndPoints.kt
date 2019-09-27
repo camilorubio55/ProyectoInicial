@@ -14,16 +14,22 @@ import java.util.concurrent.TimeUnit
 
 interface APIService {
     @POST("codigophp/API2/Controller/Login.php")
-    fun login(@Body login: JsonObject?): Call<ArrayList<Login>>
+    fun login(@Body login: JsonObject): Call<ArrayList<Login>>
 
     @POST("codigophp/API2/Controller/GetAllProyecto.php")
-    fun getallproyectos(@Body proyectos: JsonObject?): Call<ArrayList<Proyecto>>
+    fun getallproyectos(@Body proyectos: JsonObject): Call<ArrayList<Proyecto>>
 
     @POST("codigophp/API2/Controller/GetDataProyecto.php")
-    fun getdataproyecto(@Body proyecto: JsonObject?): Call<ArrayList<Proyecto>>
+    fun getdataproyecto(@Body proyecto: JsonObject): Call<ArrayList<Proyecto>>
 
     @POST("codigophp/API2/Controller/EliminarProyecto.php")
-    fun eliminarproyecto(@Body proyecto: JsonObject?): Call<ArrayList<Proyecto>>
+    fun eliminarproyecto(@Body proyecto: JsonObject): Call<ArrayList<Proyecto>>
+
+    @POST("codigophp/API2/Controller/ActualizarProyecto.php")
+    fun actualizarproyecto(@Body proyecto: JsonObject): Call<ArrayList<Proyecto>>
+
+    @POST("codigophp/API2/Controller/InsertarProyecto.php")
+    fun insertarproyecto(@Body proyecto: JsonObject): Call<ArrayList<Proyecto>>
 }
 
 object APIUtils{
@@ -42,8 +48,8 @@ object RetrofitClient{
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             val client = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .connectTimeout(100, TimeUnit.MINUTES)
-                .readTimeout(100, TimeUnit.MINUTES)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .readTimeout(100, TimeUnit.SECONDS)
                 .build()
 
             retrofit = Retrofit.Builder()
