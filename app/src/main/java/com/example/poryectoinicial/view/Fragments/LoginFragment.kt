@@ -26,7 +26,10 @@ class LoginFragment : Fragment() {
         super.onCreate(savedInstanceState)
         loginViewModel = ViewModelProviders.of(activity!!).get(LoginViewModel(activity!!.application)::class.java)
         loginViewModel.getUsuid().observe(this, Observer {
-            usuid = it
+            if (it != null)
+                usuid = it
+            else
+                Toast.makeText(context, "hola", Toast.LENGTH_SHORT).show()
         })
     }
 
@@ -45,23 +48,23 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun validalogin(view: View){
+    private fun validalogin(view: View){
         val username= EdUsuarioLogin.text.toString()
         val pass = EdPasswordLogin.text.toString()
-        if(!username.isNullOrEmpty() && !pass.isNullOrEmpty()){
+        if(username.isNotEmpty() && pass.isNotEmpty()){
             consultarusuid(username, pass)
-            if(!usuid.equals(0))
+            if(usuid != 0)
                 navProyectos(view)
         }
         else
             Toast.makeText(context,"Debe llenar los campos", Toast.LENGTH_SHORT).show()
     }
 
-    fun consultarusuid(username: String, pass: String){
+    private fun consultarusuid(username: String, pass: String){
         loginViewModel.loginUsuario(username, pass)
     }
 
-    fun navProyectos(view: View){
+    private fun navProyectos(view: View){
         val bundle = Bundle()
         bundle.putString("USUID",usuid.toString())
         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_proyectosFragment, bundle)

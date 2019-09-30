@@ -17,8 +17,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.poryectoinicial.model.Proyecto.Proyecto
+import com.example.poryectoinicial.view.Activities.MainActivity
 import com.example.poryectoinicial.view.Interfaces.ClickListener
 import com.example.poryectoinicial.view.Interfaces.LongClickListener
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.support.v4.alert
 
 class ProyectosFragment : Fragment() {
@@ -42,6 +44,7 @@ class ProyectosFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tabs_main.visibility
         proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
         proyectosViewModel.getproyectos().observe(this, Observer {
             manejador(it)
@@ -62,6 +65,7 @@ class ProyectosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MainActivity().configurarViewPager()
         arguments.let {
             rta = getArguments()?.getString("USUID")!!.toInt()
         }

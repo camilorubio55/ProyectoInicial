@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.poryectoinicial.R
@@ -24,15 +25,16 @@ class EditProyectosFragment : Fragment() {
         super.onCreate(savedInstanceState)
         proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
         proyectosViewModel.geteditproyectos().observe(this, Observer {
-            if(!rta.equals(0))
+            if(rta != 0)
                 setData(it)
         })
-
-        proyectosViewModel.getactualizarproyecto().observe(this, Observer {
-            mostrarrespuesta(it)
+        proyectosViewModel.getactualizarproyecto().observe( this, Observer {
+            if(it != null)
+                mostrarrespuesta(it)
         })
         proyectosViewModel.getinsertarproyecto().observe(this, Observer {
-            mostrarrespuesta(it)
+            if(it != null)
+                mostrarrespuesta(it)
         })
     }
 
@@ -49,21 +51,25 @@ class EditProyectosFragment : Fragment() {
         arguments.let {
             rta = getArguments()?.getString("PROYECTOID")!!.toInt()
         }
-        if(!rta.equals(0))
+        if(rta != 0)
             consultarDetalleProyecto()
         else
             limpiarcampos()
         BtGuardarProyecto.setOnClickListener {
-            val objeto = construirobjeto()
-            if(!rta.equals(0))
+            val objeto: Proyecto = construirobjeto()
+            if(rta != 0)
                 actualizarproyecto(objeto)
             else
                 insertarproyecto(objeto)
-            proyectosViewModel.limpiarObjetos()
         }
     }
 
-    fun construirobjeto(): Proyecto{
+    override fun onDestroy() {
+        super.onDestroy()
+        proyectosViewModel.limpiarObjetos()
+    }
+
+    private fun construirobjeto(): Proyecto{
         proyecto.proyectoid = rta.toString()
         proyecto.titulo = EdTituloProyecto.text.toString()
         proyecto.descripcion = EdDescripcionProyecto.text.toString()
@@ -75,24 +81,24 @@ class EditProyectosFragment : Fragment() {
         return proyecto
     }
 
-    fun consultarDetalleProyecto(){
+    private fun consultarDetalleProyecto(){
         proyectosViewModel.getdataProyectos(rta)
     }
 
-    fun actualizarproyecto(objeto: Proyecto){
+    private fun actualizarproyecto(objeto: Proyecto){
         proyectosViewModel.actualizarProyecto(objeto)
     }
 
-    fun insertarproyecto(objeto: Proyecto){
+    private fun insertarproyecto(objeto: Proyecto){
         proyectosViewModel.insertarProyecto(objeto)
     }
 
-    fun mostrarrespuesta(respuesta: Proyecto){
+    private fun mostrarrespuesta(respuesta: Proyecto){
         Toast.makeText(context,respuesta.mensaje, Toast.LENGTH_SHORT).show()
     }
 
-    fun setData(detalleproyecto: Proyecto){
-        if(!detalleproyecto.toString().isNullOrEmpty()){
+    private fun setData(detalleproyecto: Proyecto){
+        if(detalleproyecto.toString().isNotEmpty()){
             EdTituloProyecto.setText(detalleproyecto.titulo)
             EdDescripcionProyecto.setText(detalleproyecto.descripcion)
             EdFechaEnt.setText(detalleproyecto.fecentrega)
@@ -101,7 +107,7 @@ class EditProyectosFragment : Fragment() {
         }
     }
 
-    fun limpiarcampos(){
+    private fun limpiarcampos(){
         EdTituloProyecto.setText("")
         EdDescripcionProyecto.setText("")
         EdFechaEnt.setText("")
