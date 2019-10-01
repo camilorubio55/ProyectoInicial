@@ -7,20 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.poryectoinicial.R
+import com.example.poryectoinicial.view.Activities.MainActivity
 import com.example.poryectoinicial.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
-
-    companion object {
-        var usuid: Int = 0
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +41,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val btfloat = activity?.findViewById<View>(R.id.BtFloatAction)
+        btfloat?.visibility = View.GONE
         BtIngresar.setOnClickListener {
             validalogin(it)
         }
@@ -65,8 +65,21 @@ class LoginFragment : Fragment() {
     }
 
     private fun navProyectos(view: View){
-        val bundle = Bundle()
-        bundle.putString("USUID",usuid.toString())
-        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_proyectosFragment, bundle)
+        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.container, TabLayoutFragment.newInstance(/*bundle*/), TabLayoutFragment.TAG)
+        fragmentTransaction.addToBackStack(TAG)
+        fragmentTransaction.commit()
+    }
+
+    companion object {
+        var usuid: Int = 0
+        const val TAG = "LoginFragment"
+        fun newInstance(bundle: Bundle? = null): LoginFragment {
+            val fragment = LoginFragment()
+            if (bundle != null) {
+                fragment.arguments = bundle
+            }
+            return fragment
+        }
     }
 }

@@ -33,19 +33,18 @@ class AdapterProyectos: RecyclerView.Adapter<AdapterProyectos.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return items?.count()!!
+        return items.count()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items?.get(position)
-        holder.titulo?.text = item?.titulo
-        holder.descripcion?.text = item?.descripcion
-        holder.numero?.text = item?.proyectoid
+        val item = items.get(position)
+        holder.titulo?.text = item.titulo
+        holder.descripcion?.text = item.descripcion
+        holder.numero?.text = item.proyectoid
     }
 
     class ViewHolder(vista: View, listener: ClickListener, longlistener: LongClickListener): RecyclerView.ViewHolder(vista), View.OnClickListener, View.OnLongClickListener{
 
-        var vista = vista
         var titulo: TextView? = null
         var descripcion: TextView? = null
         var numero: TextView? = null

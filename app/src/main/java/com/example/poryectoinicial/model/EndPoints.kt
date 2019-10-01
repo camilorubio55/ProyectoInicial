@@ -2,6 +2,7 @@ package com.example.poryectoinicial.model
 
 import com.example.poryectoinicial.model.Login.Login
 import com.example.poryectoinicial.model.Proyecto.Proyecto
+import com.example.poryectoinicial.model.Tareas.Tarea
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,6 +31,9 @@ interface APIService {
 
     @POST("codigophp/API2/Controller/InsertarProyecto.php")
     fun insertarproyecto(@Body proyecto: JsonObject): Call<ArrayList<Proyecto>>
+
+    @POST("codigophp/API2/Controller/GetAllDeProyecto.php")
+    fun getalldeproyectos(@Body tarea: JsonObject): Call<ArrayList<Tarea>>
 }
 
 object APIUtils{

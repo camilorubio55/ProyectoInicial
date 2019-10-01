@@ -7,20 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.poryectoinicial.R
 import com.example.poryectoinicial.view.Adapters.AdapterProyectos
 import com.example.poryectoinicial.viewmodel.ProyectosViewModel
 import kotlinx.android.synthetic.main.fragment_proyectos.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Proyecto.Proyecto
-import com.example.poryectoinicial.view.Activities.MainActivity
 import com.example.poryectoinicial.view.Interfaces.ClickListener
 import com.example.poryectoinicial.view.Interfaces.LongClickListener
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.support.v4.alert
 
 class ProyectosFragment : Fragment() {
@@ -44,7 +43,6 @@ class ProyectosFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tabs_main.visibility
         proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
         proyectosViewModel.getproyectos().observe(this, Observer {
             manejador(it)
@@ -65,17 +63,15 @@ class ProyectosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        MainActivity().configurarViewPager()
-        arguments.let {
-            rta = getArguments()?.getString("USUID")!!.toInt()
-        }
+        val btfloat = activity?.findViewById<View>(R.id.BtFloatAction)
+        rta = LoginFragment.usuid
         iniRecycler()
         SwRefresh.setOnRefreshListener {
             SwRefresh.isRefreshing = true
             consultarProyectos()
             SwRefresh.isRefreshing = false
         }
-        BtFloatAction.setOnClickListener{view: View ->
+        btfloat?.setOnClickListener{view: View ->
             navEditProyectos(view,0)
         }
     }
@@ -100,7 +96,10 @@ class ProyectosFragment : Fragment() {
     private fun navEditProyectos(view: View, proyectoid: Int?){
         val bundle = Bundle()
         bundle.putString("PROYECTOID",proyectoid.toString())
-        Navigation.findNavController(view).navigate(R.id.action_proyectosFragment_to_editProyectosFragment, bundle)
+        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.container, EditProyectosFragment.newInstance(bundle), EditProyectosFragment.TAG)
+        fragmentTransaction.addToBackStack(TAG)
+        fragmentTransaction.commit()
     }
 
     private fun eliminarProyecto(proyectoid: Int){
@@ -118,5 +117,16 @@ class ProyectosFragment : Fragment() {
 
     private fun respuestaEliminarProyecto(respuesta: MutableList<Proyecto>){
         Toast.makeText(context, respuesta.get(0).mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        const val TAG = "ProyectosFragment"
+/*        fun newInstance(bundle: Bundle? = null): ProyectosFragment {
+            val fragment = ProyectosFragment()
+            if (bundle != null) {
+                fragment.arguments = bundle
+            }
+            return fragment
+        }*/
     }
 }

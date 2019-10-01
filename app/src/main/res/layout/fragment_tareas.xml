@@ -8,7 +8,7 @@
     tools:context=".view.Fragments.ProyectosFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/SwRefresh"
+        android:id="@+id/SwRefreshTareas"
         android:layout_width="match_parent"
         android:layout_height="590dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,13 +19,12 @@
         app:layout_constraintVertical_bias="1.0">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RcProyectos"
+            android:id="@+id/RcTareas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_bar"
             tools:itemCount="8"
-            tools:listitem="@layout/cardview_proyectos">
-
+            tools:listitem="@layout/cardview_tareas">
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
