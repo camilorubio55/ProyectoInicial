@@ -11,7 +11,7 @@ import com.example.poryectoinicial.model.Proyecto.ProyectoRepositorioImpl
 class ProyectosViewModel(application: Application) : AndroidViewModel(application) {
 
     private var proyectoRepositorioImpl: ProyectoRepositorioImpl? = ProyectoRepositorioImpl()
-    private var proyectos = MutableLiveData<MutableList<Proyecto>>()
+    private var proyectos: MutableLiveData<MutableList<Proyecto>> = MutableLiveData()
     private var editproyecto = MutableLiveData<Proyecto>()
     private var eliminarproyecto = MutableLiveData<MutableList<Proyecto>>()
     private var actualizarproyecto = MutableLiveData<Proyecto>()
@@ -19,11 +19,11 @@ class ProyectosViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getallProyectos(usuid: Int){
         proyectoRepositorioImpl!!.getallProyectosAPI(usuid){
-            this.proyectos.value = it
+            proyectos.value = it
         }
     }
 
-    fun getproyectos():  LiveData<MutableList<Proyecto>> = this.proyectos
+    fun getproyectos():  LiveData<MutableList<Proyecto>> = proyectos
 
     fun getdataProyectos(proyectoid: Int){
         proyectoRepositorioImpl!!.getdataProyectoAPI(proyectoid){

@@ -26,6 +26,11 @@ class AdapterProyectos: RecyclerView.Adapter<AdapterProyectos.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun deleteItem(index: Int){
+        items.removeAt(index)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.cardview_proyectos, parent, false)
         val viewHolder = ViewHolder(vista, listener!!, longlistener!!)

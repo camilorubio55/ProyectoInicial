@@ -37,7 +37,7 @@ class EditProyectosFragment : Fragment() {
         proyectosViewModel.getinsertarproyecto().observe(this, Observer {
             if(it != null){
                 mostrarrespuesta(it)
-                regresaraGrid()
+
             }
         })
     }
@@ -53,7 +53,7 @@ class EditProyectosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments.let {
-            rta = getArguments()?.getString("PROYECTOID")!!.toInt()
+            rta = arguments?.getString("PROYECTOID")!!.toInt()
         }
         if(rta != 0)
             consultarDetalleProyecto()
@@ -99,6 +99,8 @@ class EditProyectosFragment : Fragment() {
 
     private fun mostrarrespuesta(respuesta: Proyecto){
         Toast.makeText(context,respuesta.mensaje, Toast.LENGTH_SHORT).show()
+        regresaraGrid()
+        //proyectosViewModel.getallProyectos(LoginFragment.usuid)
     }
 
     private fun setData(detalleproyecto: Proyecto){

@@ -37,8 +37,8 @@ interface APIService {
 }
 
 object APIUtils{
-    val BaseUrl = "http://192.168.1.69:80/"
-    //val BaseUrl = "http://192.168.0.71:81/"
+    //val BaseUrl = "http://192.168.1.69:80/"
+    val BaseUrl = "http://192.168.0.71:81/"
     val apiService: APIService
         get() = RetrofitClient.getClient(BaseUrl)!!.create(APIService::class.java)
 }

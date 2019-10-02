@@ -29,14 +29,14 @@ class ProyectosFragment : Fragment() {
     private lateinit var adaptador: AdapterProyectos
     private var rta = 0
 
-    fun manejador(listdata: MutableList<Proyecto>){
+    private fun manejador(listdata: MutableList<Proyecto>){
         adaptador.setData(listdata, object : ClickListener {
             override fun onClick(vista: View, index: Int) {
                 navEditProyectos(vista, listdata.get(index).proyectoid.toInt())
             }
         }, object : LongClickListener {
             override fun longClick(vista: View, index: Int) {
-                eliminarProyecto(listdata.get(index).proyectoid.toInt())
+                eliminarProyecto(listdata[index].proyectoid.toInt(), index)
             }
         })
     }
@@ -68,6 +68,7 @@ class ProyectosFragment : Fragment() {
         iniRecycler()
         SwRefresh.setOnRefreshListener {
             SwRefresh.isRefreshing = true
+            //proyectosViewModel.getproyectos().value?.clear()
             consultarProyectos()
             SwRefresh.isRefreshing = false
         }
@@ -76,9 +77,16 @@ class ProyectosFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
+/*    override fun onResume() {
         super.onResume()
         consultarProyectos()
+    }*/
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && isResumed){
+            consultarProyectos()
+        }
     }
 
     private fun iniRecycler(){
@@ -102,13 +110,14 @@ class ProyectosFragment : Fragment() {
         fragmentTransaction.commit()
     }
 
-    private fun eliminarProyecto(proyectoid: Int){
+    private fun eliminarProyecto(proyectoid: Int, index: Int){
         alert {
             title = "Eliminar proyecto $proyectoid ?"
             message = "Al eliminar el proyecto se eliminaran las tareas relacionadas"
             positiveButton ( "Si") {
                 proyectosViewModel.eliminarProyecto(proyectoid)
-                //respuestaEliminarProyecto()
+                adaptador.deleteItem(index)
+                proyectosViewModel.getproyectos().value?.removeAt(index)
             }
             negativeButton ( "No" ) {
             }
@@ -116,7 +125,7 @@ class ProyectosFragment : Fragment() {
     }
 
     private fun respuestaEliminarProyecto(respuesta: MutableList<Proyecto>){
-        Toast.makeText(context, respuesta.get(0).mensaje, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, respuesta[0].mensaje, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
