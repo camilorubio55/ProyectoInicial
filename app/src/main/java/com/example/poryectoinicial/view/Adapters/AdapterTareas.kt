@@ -13,6 +13,12 @@ class AdapterTareas: RecyclerView.Adapter<AdapterTareas.ViewHolder>() {
 
     var items: MutableList<Tarea> = mutableListOf()
 
+    fun setdata(items: MutableList<Tarea>){
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.cardview_tareas, parent, false)
         val viewHolder = ViewHolder(vista)

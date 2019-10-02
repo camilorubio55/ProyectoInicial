@@ -8,6 +8,7 @@ import com.example.poryectoinicial.model.Login.Login
 import com.example.poryectoinicial.view.Adapters.ViewPagerAdapter
 import com.example.poryectoinicial.view.Fragments.LoginFragment
 import com.example.poryectoinicial.view.Fragments.ProyectosFragment
+import com.example.poryectoinicial.view.Fragments.TareasFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     fun configurarViewPager(){
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(ProyectosFragment(), "Proyectos")
-        adapter.addFragment(ProyectosFragment(), "Tareas")
+        adapter.addFragment(TareasFragment(), "Tareas")
         viewpager_main.adapter = adapter
     }
 
