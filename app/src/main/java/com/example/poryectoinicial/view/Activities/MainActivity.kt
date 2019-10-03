@@ -4,12 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.example.poryectoinicial.R
-import com.example.poryectoinicial.model.Login.Login
-import com.example.poryectoinicial.view.Adapters.ViewPagerAdapter
 import com.example.poryectoinicial.view.Fragments.LoginFragment
-import com.example.poryectoinicial.view.Fragments.ProyectosFragment
-import com.example.poryectoinicial.view.Fragments.TareasFragment
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,16 +15,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.container, LoginFragment.newInstance(), LoginFragment.TAG)
         fragmentTransaction.addToBackStack(TAG)
         fragmentTransaction.commit()
-
-        configurarViewPager()
-        tabs_main.setupWithViewPager(viewpager_main)
-    }
-
-    fun configurarViewPager(){
-        val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(ProyectosFragment(), "Proyectos")
-        adapter.addFragment(TareasFragment(), "Tareas")
-        viewpager_main.adapter = adapter
     }
 
     companion object {

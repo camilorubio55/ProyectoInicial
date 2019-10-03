@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import com.example.poryectoinicial.R
-import com.example.poryectoinicial.view.Activities.MainActivity
 import com.example.poryectoinicial.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
+import android.content.Intent
+import com.example.poryectoinicial.view.Activities.BaseActivity
+
 
 class LoginFragment : Fragment() {
 
@@ -36,12 +35,12 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(com.example.poryectoinicial.R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btfloat = activity?.findViewById<View>(R.id.BtFloatAction)
+        val btfloat = activity?.findViewById<View>(com.example.poryectoinicial.R.id.BtFloatAction)
         btfloat?.visibility = View.GONE
         BtIngresar.setOnClickListener {
             validalogin(it)
@@ -65,10 +64,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun navProyectos(view: View){
-        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.replace(R.id.container, TabLayoutFragment.newInstance(/*bundle*/), TabLayoutFragment.TAG)
+        /*val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.container, TabLayoutFragment.newInstance(*//*bundle*//*), TabLayoutFragment.TAG)
         fragmentTransaction.addToBackStack(TAG)
-        fragmentTransaction.commit()
+        fragmentTransaction.commit()*/
+        val intent = Intent(activity, BaseActivity::class.java)
+        activity?.startActivity(intent)
     }
 
     companion object {

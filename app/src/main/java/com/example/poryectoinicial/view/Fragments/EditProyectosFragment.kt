@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.poryectoinicial.R
@@ -24,7 +22,6 @@ class EditProyectosFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        deshabilitarFloatActionB()
         proyectosViewModel = ViewModelProviders.of(activity!!).get(ProyectosViewModel(activity!!.application)::class.java)
         proyectosViewModel.geteditproyectos().observe(this, Observer {
             if(rta != 0)
@@ -37,7 +34,7 @@ class EditProyectosFragment : Fragment() {
         proyectosViewModel.getinsertarproyecto().observe(this, Observer {
             if(it != null){
                 mostrarrespuesta(it)
-
+                regresaraGrid()
             }
         })
     }
@@ -99,8 +96,6 @@ class EditProyectosFragment : Fragment() {
 
     private fun mostrarrespuesta(respuesta: Proyecto){
         Toast.makeText(context,respuesta.mensaje, Toast.LENGTH_SHORT).show()
-        regresaraGrid()
-        //proyectosViewModel.getallProyectos(LoginFragment.usuid)
     }
 
     private fun setData(detalleproyecto: Proyecto){
@@ -114,9 +109,7 @@ class EditProyectosFragment : Fragment() {
     }
 
     private fun regresaraGrid(){
-        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.replace(R.id.container, TabLayoutFragment.newInstance(), TabLayoutFragment.TAG)
-        fragmentTransaction.commit()
+        activity?.onBackPressed()
     }
 
     private fun limpiarcampos(){
@@ -125,15 +118,6 @@ class EditProyectosFragment : Fragment() {
         EdFechaEnt.setText("")
         EdFechaEst.setText("")
         EdHoras.setText("")
-    }
-
-    private fun deshabilitarFloatActionB(){
-        val btfloat = activity?.findViewById<View>(R.id.BtFloatAction)
-        btfloat?.visibility = View.GONE
-        val tab = activity?.findViewById<View>(R.id.tabs_main)
-        val vpager = activity?.findViewById<View>(R.id.viewpager_main)
-        tab?.visibility = View.GONE
-        vpager?.visibility = View.GONE
     }
 
     companion object {

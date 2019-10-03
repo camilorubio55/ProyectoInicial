@@ -19,11 +19,11 @@ class ProyectosViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getallProyectos(usuid: Int){
         proyectoRepositorioImpl!!.getallProyectosAPI(usuid){
-            proyectos.value = it
+            this.proyectos.value = it
         }
     }
 
-    fun getproyectos():  LiveData<MutableList<Proyecto>> = proyectos
+    fun getproyectos(): LiveData<MutableList<Proyecto>> = this.proyectos
 
     fun getdataProyectos(proyectoid: Int){
         proyectoRepositorioImpl!!.getdataProyectoAPI(proyectoid){

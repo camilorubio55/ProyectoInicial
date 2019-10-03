@@ -18,16 +18,20 @@ class AdapterProyectos: RecyclerView.Adapter<AdapterProyectos.ViewHolder>() {
     var listener: ClickListener? = null
     var longlistener: LongClickListener? = null
 
-    fun setData(items: MutableList<Proyecto>, listener: ClickListener, longlistener: LongClickListener){
-        this.items.clear()
+    fun setData(items: List<Proyecto>, listener: ClickListener, longlistener: LongClickListener){
+        //this.items.clear()
         this.items.addAll(items)
         this.listener = listener
         this.longlistener = longlistener
         notifyDataSetChanged()
     }
 
+    fun clearData(){
+        this.items.clear()
+    }
+
     fun deleteItem(index: Int){
-        items.removeAt(index)
+        this.items.removeAt(index)
         notifyDataSetChanged()
     }
 
@@ -42,7 +46,7 @@ class AdapterProyectos: RecyclerView.Adapter<AdapterProyectos.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items.get(position)
+        val item = items[position]
         holder.titulo?.text = item.titulo
         holder.descripcion?.text = item.descripcion
         holder.numero?.text = item.proyectoid

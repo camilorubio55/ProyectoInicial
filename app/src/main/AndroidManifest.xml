@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.Activities.TabLayoutActivity"></activity>
+        <activity android:name=".view.Activities.EditActivity"></activity>
+        <activity android:name=".view.Activities.BaseActivity" />
+        <activity android:name=".view.Activities.TabLayoutActivity" />
         <activity
             android:name=".view.Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">

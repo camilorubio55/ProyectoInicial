@@ -1,13 +1,12 @@
 package com.example.poryectoinicial.view.Fragments
 
-
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.poryectoinicial.view.Adapters.AdapterProyectos
@@ -15,9 +14,9 @@ import com.example.poryectoinicial.viewmodel.ProyectosViewModel
 import kotlinx.android.synthetic.main.fragment_proyectos.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Proyecto.Proyecto
+import com.example.poryectoinicial.view.Activities.EditActivity
 import com.example.poryectoinicial.view.Interfaces.ClickListener
 import com.example.poryectoinicial.view.Interfaces.LongClickListener
 import org.jetbrains.anko.support.v4.alert
@@ -28,11 +27,14 @@ class ProyectosFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var adaptador: AdapterProyectos
     private var rta = 0
+    private lateinit var listdata: MutableList<Proyecto>
 
-    private fun manejador(listdata: MutableList<Proyecto>){
+    private fun manejador(listdata: List<Proyecto>){
+        //this.listdata = listdata
+        adaptador.clearData()
         adaptador.setData(listdata, object : ClickListener {
             override fun onClick(vista: View, index: Int) {
-                navEditProyectos(vista, listdata.get(index).proyectoid.toInt())
+                navEditProyectos(listdata[index].proyectoid.toInt())
             }
         }, object : LongClickListener {
             override fun longClick(vista: View, index: Int) {
@@ -72,15 +74,15 @@ class ProyectosFragment : Fragment() {
             consultarProyectos()
             SwRefresh.isRefreshing = false
         }
-        btfloat?.setOnClickListener{view: View ->
-            navEditProyectos(view,0)
+        btfloat?.setOnClickListener{
+            navEditProyectos(0)
         }
     }
 
-/*    override fun onResume() {
+    override fun onResume() {
         super.onResume()
         consultarProyectos()
-    }*/
+    }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
@@ -101,13 +103,11 @@ class ProyectosFragment : Fragment() {
         proyectosViewModel.getallProyectos(rta)
     }
 
-    private fun navEditProyectos(view: View, proyectoid: Int?){
-        val bundle = Bundle()
-        bundle.putString("PROYECTOID",proyectoid.toString())
-        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.replace(R.id.container, EditProyectosFragment.newInstance(bundle), EditProyectosFragment.TAG)
-        fragmentTransaction.addToBackStack(TAG)
-        fragmentTransaction.commit()
+    private fun navEditProyectos(proyectoid: Int?){
+        Intent(activity, EditActivity::class.java).run {
+            putExtra("PROYECTOID", proyectoid.toString())
+            startActivity(this)
+        }
     }
 
     private fun eliminarProyecto(proyectoid: Int, index: Int){
@@ -130,12 +130,5 @@ class ProyectosFragment : Fragment() {
 
     companion object {
         const val TAG = "ProyectosFragment"
-/*        fun newInstance(bundle: Bundle? = null): ProyectosFragment {
-            val fragment = ProyectosFragment()
-            if (bundle != null) {
-                fragment.arguments = bundle
-            }
-            return fragment
-        }*/
     }
 }
