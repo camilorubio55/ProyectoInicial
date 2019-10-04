@@ -1,6 +1,5 @@
 package com.example.poryectoinicial.view.Adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,8 @@ class AdapterProyectos: RecyclerView.Adapter<AdapterProyectos.ViewHolder>() {
 
     fun deleteItem(index: Int){
         this.items.removeAt(index)
-        notifyDataSetChanged()
+        notifyItemRemoved(index)
+        //notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

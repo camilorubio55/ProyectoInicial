@@ -49,9 +49,9 @@ class EditProyectosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments.let {
-            rta = arguments?.getString("PROYECTOID")!!.toInt()
-        }
+        //arguments.let {
+        rta = arguments?.getString("PROYECTOID")!!.toInt()
+        //}
         if(rta != 0)
             consultarDetalleProyecto()
         else

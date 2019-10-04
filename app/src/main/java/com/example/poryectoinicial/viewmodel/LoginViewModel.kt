@@ -12,7 +12,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application){
 
     fun loginUsuario(username: String, pass: String){
         loginRepositorioImpl!!.loginAPI(username,pass){
-            this.usuid.value = it
+            this.usuid.postValue(it)
         }
     }
 

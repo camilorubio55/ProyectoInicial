@@ -27,10 +27,8 @@ class ProyectosFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var adaptador: AdapterProyectos
     private var rta = 0
-    private lateinit var listdata: MutableList<Proyecto>
 
     private fun manejador(listdata: List<Proyecto>){
-        //this.listdata = listdata
         adaptador.clearData()
         adaptador.setData(listdata, object : ClickListener {
             override fun onClick(vista: View, index: Int) {
@@ -68,9 +66,9 @@ class ProyectosFragment : Fragment() {
         val btfloat = activity?.findViewById<View>(R.id.BtFloatAction)
         rta = LoginFragment.usuid
         iniRecycler()
+        consultarProyectos()
         SwRefresh.setOnRefreshListener {
             SwRefresh.isRefreshing = true
-            //proyectosViewModel.getproyectos().value?.clear()
             consultarProyectos()
             SwRefresh.isRefreshing = false
         }
@@ -84,12 +82,12 @@ class ProyectosFragment : Fragment() {
         consultarProyectos()
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+/*    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser && isResumed){
             consultarProyectos()
         }
-    }
+    }*/
 
     private fun iniRecycler(){
         adaptador = AdapterProyectos()
@@ -117,7 +115,12 @@ class ProyectosFragment : Fragment() {
             positiveButton ( "Si") {
                 proyectosViewModel.eliminarProyecto(proyectoid)
                 adaptador.deleteItem(index)
-                proyectosViewModel.getproyectos().value?.removeAt(index)
+                //consultarProyectos()
+                /*proyectosViewModel.eliminaitem()
+                consultarProyectos()*/
+                //proyectosViewModel.getproyectos().value?.removeAt(index)
+                //consultarProyectos()
+
             }
             negativeButton ( "No" ) {
             }
