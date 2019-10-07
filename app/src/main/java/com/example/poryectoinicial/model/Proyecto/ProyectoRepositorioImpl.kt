@@ -13,8 +13,7 @@ class ProyectoRepositorioImpl {
     fun getallProyectosAPI(usuid: Int, completion: (MutableList<Proyecto>) -> Unit){
         val jsonObject = JsonObject()
         jsonObject.addProperty("usuid", usuid)
-        val mAPIService: APIService
-        mAPIService = APIUtils.apiService
+        val mAPIService: APIService = APIUtils.apiService
         try {
             mAPIService.getallproyectos(jsonObject).enqueue(object :
                 Callback<ArrayList<Proyecto>> {
@@ -36,8 +35,7 @@ class ProyectoRepositorioImpl {
     fun getdataProyectoAPI(proyectoid : Int, completion: (Proyecto) -> Unit){
         val jsonObject = JsonObject()
         jsonObject.addProperty("proyectoid", proyectoid)
-        val mAPIService: APIService
-        mAPIService = APIUtils.apiService
+        val mAPIService: APIService = APIUtils.apiService
         try {
             mAPIService.getdataproyecto(jsonObject).enqueue(object :
                 Callback<ArrayList<Proyecto>> {
@@ -47,7 +45,7 @@ class ProyectoRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
-                    val proyect = response.body()!!.get(0)
+                    val proyect = response.body()!![0]
                     completion(proyect)
                 }
             })
@@ -59,8 +57,7 @@ class ProyectoRepositorioImpl {
     fun eliminarProyectoAPI(proyectoid : Int, completion: (MutableList<Proyecto>) -> Unit){
         val jsonObject = JsonObject()
         jsonObject.addProperty("proyectoid", proyectoid)
-        val mAPIService: APIService?
-        mAPIService = APIUtils.apiService
+        val mAPIService: APIService = APIUtils.apiService
         try {
             mAPIService.eliminarproyecto(jsonObject).enqueue(object :
                 Callback<ArrayList<Proyecto>> {
@@ -99,7 +96,7 @@ class ProyectoRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
-                    val proyect = response.body()!!.get(0)
+                    val proyect = response.body()!![0]
                     completion(proyect)
                 }
             })
@@ -116,8 +113,7 @@ class ProyectoRepositorioImpl {
         jsonObject.addProperty("fecentrega", proyecto.fecentrega)
         jsonObject.addProperty("horas", proyecto.horas)
         jsonObject.addProperty("usuid", proyecto.usuid)
-        val mAPIService: APIService?
-        mAPIService = APIUtils.apiService
+        val mAPIService: APIService = APIUtils.apiService
         try {
             mAPIService.insertarproyecto(jsonObject).enqueue(object :
                 Callback<ArrayList<Proyecto>> {
@@ -127,7 +123,7 @@ class ProyectoRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
-                    val proyect = response.body()!!.get(0)
+                    val proyect = response.body()!![0]
                     completion(proyect)
                 }
             })

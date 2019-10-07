@@ -32,7 +32,6 @@ class AdapterProyectos: RecyclerView.Adapter<AdapterProyectos.ViewHolder>() {
     fun deleteItem(index: Int){
         this.items.removeAt(index)
         notifyItemRemoved(index)
-        //notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

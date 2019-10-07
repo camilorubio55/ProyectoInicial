@@ -1,0 +1,14 @@
+<vector android:height="50dp" android:viewportHeight="64"
+    android:viewportWidth="64" android:width="50dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#3d9ae2" android:pathData="m23,17v-14l-16,16h14a2,2 0,0 0,2 -2z"/>
+    <path android:fillColor="#d1e7f8" android:pathData="m9,57h42v-52a2.006,2.006 0,0 0,-2 -2h-26v14a2,2 0,0 1,-2 2h-14v36a2.006,2.006 0,0 0,2 2z"/>
+    <path android:fillColor="#9bc9ff" android:pathData="m7,29v26a2,2 0,0 0,2 2h27c-16.029,0 -29,-12.523 -29,-28z"/>
+    <path android:fillColor="#7ed63e" android:pathData="m51,13h-6v44,4h12v-6,-6 -6,-6 -6,-6 -6,-6z"/>
+    <path android:fillColor="#f1f2f2" android:pathData="m39,21a4,4 0,0 0,-8 0v2h8z"/>
+    <path android:fillColor="#006df0" android:pathData="m39,27v-4h-8v4h4z"/>
+    <path android:fillColor="#d1d3d4" android:pathData="m35,55a3,3 0,0 1,2.4 1.2l1.6,-3.2 -4,-4 -4,4 1.6,3.2a3,3 0,0 1,2.4 -1.2z"/>
+    <path android:fillColor="#808285" android:pathData="m35,55a3,3 0,0 0,-2.4 1.2l0.4,0.8 2,4 2,-4 0.4,-0.8a3,3 0,0 0,-2.4 -1.2z"/>
+    <path android:fillColor="#ff3051" android:pathData="m35,27h-4v26l4,-4z"/>
+    <path android:fillColor="#ffcd00" android:pathData="m35,49 l4,4v-26h-4z"/>
+    <path android:fillColor="#FF000000" android:pathData="m57,12h-5v-7a3,3 0,0 0,-3 -3h-26a1,1 0,0 0,-0.707 0.293l-16,16a1,1 0,0 0,-0.293 0.707v36a3,3 0,0 0,3 3h23.382l1.718,3.447a1,1 0,0 0,1.79 0l1.728,-3.447h6.382v3a1,1 0,0 0,1 1h12a1,1 0,0 0,1 -1v-48a1,1 0,0 0,-1 -1zM22,5.414v11.586a1,1 0,0 1,-1 1h-11.586zM35,58.764 L33.822,56.408a2.1,2.1 0,0 1,2.356 0zM37.078,54.608a3.855,3.855 0,0 0,-4.156 0l-0.7,-1.411 2.778,-2.783 2.783,2.786zM32,50.586v-22.586h2v20.586zM38,50.586 L36,48.586v-20.586h2zM38,26h-6v-2h6zM38,22h-6v-1a3,3 0,0 1,6 0zM44,13v43h-5.382l1.282,-2.553a1,1 0,0 0,0.1 -0.447v-32a5,5 0,0 0,-10 0v32a1,1 0,0 0,0.105 0.447l1.277,2.553h-22.382a1,1 0,0 1,-1 -1v-35h13a3,3 0,0 0,3 -3v-13h25a1,1 0,0 1,1 1v7h-5a1,1 0,0 0,-1 1zM53,26h3v4h-3a1,1 0,0 0,0 2h3v4h-3a1,1 0,0 0,0 2h3v4h-3a1,1 0,0 0,0 2h3v4h-3a1,1 0,0 0,0 2h3v4h-3a1,1 0,0 0,0 2h3v4h-10v-46h10v4h-3a1,1 0,0 0,0 2h3v4h-3a1,1 0,0 0,0 2z"/>
+</vector>

@@ -49,9 +49,7 @@ class EditProyectosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //arguments.let {
         rta = arguments?.getString("PROYECTOID")!!.toInt()
-        //}
         if(rta != 0)
             consultarDetalleProyecto()
         else
@@ -65,10 +63,10 @@ class EditProyectosFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
+/*    override fun onDestroyView() {
         super.onDestroyView()
-        proyectosViewModel.limpiarObjetos()
-    }
+        //proyectosViewModel.limpiarObjetos()
+    }*/
 
     private fun construirobjeto(): Proyecto{
         proyecto.proyectoid = rta.toString()

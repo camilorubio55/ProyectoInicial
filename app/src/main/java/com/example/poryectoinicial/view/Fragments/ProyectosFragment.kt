@@ -1,11 +1,14 @@
 package com.example.poryectoinicial.view.Fragments
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +23,9 @@ import com.example.poryectoinicial.view.Activities.EditActivity
 import com.example.poryectoinicial.view.Interfaces.ClickListener
 import com.example.poryectoinicial.view.Interfaces.LongClickListener
 import org.jetbrains.anko.support.v4.alert
+import com.example.poryectoinicial.view.Activities.BaseActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class ProyectosFragment : Fragment() {
 
@@ -47,7 +53,6 @@ class ProyectosFragment : Fragment() {
         proyectosViewModel.getproyectos().observe(this, Observer {
             manejador(it)
         })
-
         proyectosViewModel.geteliminaproyecto().observe(this, Observer {
             respuestaEliminarProyecto(it)
         })
@@ -63,7 +68,6 @@ class ProyectosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btfloat = activity?.findViewById<View>(R.id.BtFloatAction)
         rta = LoginFragment.usuid
         iniRecycler()
         consultarProyectos()
@@ -72,22 +76,29 @@ class ProyectosFragment : Fragment() {
             consultarProyectos()
             SwRefresh.isRefreshing = false
         }
-        btfloat?.setOnClickListener{
-            navEditProyectos(0)
-        }
     }
 
     override fun onResume() {
         super.onResume()
         consultarProyectos()
+        if (!userVisibleHint) {
+            return
+        }
+
+        val btfloatproyectos = activity?.findViewById<FloatingActionButton>(R.id.BtFloatAction)
+        btfloatproyectos?.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.colorAccent))
+        btfloatproyectos?.setImageResource(R.drawable.ic_lightbulb)
+        btfloatproyectos?.setOnClickListener{
+            navEditProyectos(0)
+        }
     }
 
-/*    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser && isResumed){
-            consultarProyectos()
+    override fun setUserVisibleHint(visible: Boolean) {
+        super.setUserVisibleHint(visible)
+        if (visible && isResumed) {
+            onResume()
         }
-    }*/
+    }
 
     private fun iniRecycler(){
         adaptador = AdapterProyectos()
@@ -103,6 +114,7 @@ class ProyectosFragment : Fragment() {
 
     private fun navEditProyectos(proyectoid: Int?){
         Intent(activity, EditActivity::class.java).run {
+            putExtra("PROYECTO", 1)
             putExtra("PROYECTOID", proyectoid.toString())
             startActivity(this)
         }
@@ -113,18 +125,14 @@ class ProyectosFragment : Fragment() {
             title = "Eliminar proyecto $proyectoid ?"
             message = "Al eliminar el proyecto se eliminaran las tareas relacionadas"
             positiveButton ( "Si") {
-                proyectosViewModel.eliminarProyecto(proyectoid)
                 adaptador.deleteItem(index)
-                //consultarProyectos()
-                /*proyectosViewModel.eliminaitem()
-                consultarProyectos()*/
-                //proyectosViewModel.getproyectos().value?.removeAt(index)
-                //consultarProyectos()
-
+                proyectosViewModel.getproyectos().value?.removeAt(index)
+                proyectosViewModel.eliminarProyecto(proyectoid)
+                adaptador.notifyItemRemoved(index)
             }
             negativeButton ( "No" ) {
             }
-        }.show ()
+        }.show()
     }
 
     private fun respuestaEliminarProyecto(respuesta: MutableList<Proyecto>){

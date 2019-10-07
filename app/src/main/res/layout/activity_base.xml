@@ -38,8 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:src="@drawable/ic_launcher_foreground"
-        app:backgroundTint="@color/colorFloatActionB"
         app:borderWidth="1dp"
         app:cardElevation="6dp"
         app:elevation="2dp"
