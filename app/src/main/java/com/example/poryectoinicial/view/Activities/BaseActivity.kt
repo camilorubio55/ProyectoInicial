@@ -7,6 +7,7 @@ import com.example.poryectoinicial.view.Adapters.ViewPagerAdapter
 import com.example.poryectoinicial.view.Fragments.ProyectosFragment
 import com.example.poryectoinicial.view.Fragments.TareasFragment
 import kotlinx.android.synthetic.main.activity_base.*
+import org.jetbrains.anko.alert
 
 class BaseActivity : AppCompatActivity() {
 
@@ -23,5 +24,20 @@ class BaseActivity : AppCompatActivity() {
         adapter.addFragment(ProyectosFragment(), "Proyectos")
         adapter.addFragment(TareasFragment(), "Tareas")
         viewpager_main.adapter = adapter
+    }
+
+    override fun onBackPressed(){
+        decision()
+    }
+
+    fun decision(){
+        alert {
+            title = "Desea cerrar sesion?"
+            positiveButton("Si"){
+                finish()
+            }
+            negativeButton("No"){
+            }
+        }.show()
     }
 }

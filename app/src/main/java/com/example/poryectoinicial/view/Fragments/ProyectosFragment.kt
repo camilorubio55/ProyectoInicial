@@ -36,15 +36,7 @@ class ProyectosFragment : Fragment() {
 
     private fun manejador(listdata: List<Proyecto>){
         adaptador.clearData()
-        adaptador.setData(listdata, object : ClickListener {
-            override fun onClick(vista: View, index: Int) {
-                navEditProyectos(listdata[index].proyectoid.toInt())
-            }
-        }, object : LongClickListener {
-            override fun longClick(vista: View, index: Int) {
-                eliminarProyecto(listdata[index].proyectoid.toInt(), index)
-            }
-        })
+        adaptador.setData(listdata)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +93,11 @@ class ProyectosFragment : Fragment() {
     }
 
     private fun iniRecycler(){
-        adaptador = AdapterProyectos()
+        adaptador = AdapterProyectos(clickClosure = {
+            navEditProyectos(it.proyectoid.toInt())
+        }, eliminaritemClosure = {it, index ->
+                eliminarProyecto(it.proyectoid.toInt(), index)
+        })
         RcProyectos.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
         RcProyectos.layoutManager = layoutManager
@@ -125,10 +121,8 @@ class ProyectosFragment : Fragment() {
             title = "Eliminar proyecto $proyectoid ?"
             message = "Al eliminar el proyecto se eliminaran las tareas relacionadas"
             positiveButton ( "Si") {
-                adaptador.deleteItem(index)
-                proyectosViewModel.getproyectos().value?.removeAt(index)
                 proyectosViewModel.eliminarProyecto(proyectoid)
-                adaptador.notifyItemRemoved(index)
+                adaptador.deleteItem(index)
             }
             negativeButton ( "No" ) {
             }

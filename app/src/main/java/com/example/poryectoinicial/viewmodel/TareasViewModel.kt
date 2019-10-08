@@ -13,6 +13,8 @@ class TareasViewModel(application: Application): AndroidViewModel(application) {
     private var tareas = MutableLiveData<MutableList<Tarea>>()
     private var tarea = MutableLiveData<Tarea>()
     private var insertartarea = MutableLiveData<Tarea>()
+    private var actualizartarea = MutableLiveData<Tarea>()
+    private var eliminartarea = MutableLiveData<Tarea>()
 
     fun getallTareas(usuid: Int){
         tareaRepositorioImpl?.getallTareasAPI(usuid){
@@ -38,4 +40,19 @@ class TareasViewModel(application: Application): AndroidViewModel(application) {
 
     fun getinsertartarea(): LiveData<Tarea> = this.insertartarea
 
+    fun actualizarTarea(tarea: Tarea){
+        tareaRepositorioImpl?.actualizarTareaAPI(tarea){
+            this.actualizartarea.value = it
+        }
+    }
+
+    fun getactualizartarea(): LiveData<Tarea> = this.actualizartarea
+
+    fun eliminarTarea(deproyectoid: Int){
+        tareaRepositorioImpl?.eliminarTareaAPI(deproyectoid){
+            this.eliminartarea.value = it
+        }
+    }
+
+    fun geteliminartarea(): LiveData<Tarea> = this.eliminartarea
 }

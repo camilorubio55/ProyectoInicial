@@ -24,6 +24,7 @@ import com.example.poryectoinicial.viewmodel.TareasViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_tareas.*
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.support.v4.alert
 
 class TareasFragment : Fragment() {
 
@@ -33,15 +34,8 @@ class TareasFragment : Fragment() {
     private var rta = 0
 
     fun manejador(listdata: MutableList<Tarea>){
-        adaptador.setdata(listdata, object : ClickListener {
-            override fun onClick(vista: View, index: Int) {
-                navEditTareas(listdata[index].deproyectoid.toInt())
-            }
-        }, object : LongClickListener{
-            override fun longClick(vista: View, index: Int) {
-                Toast.makeText(context, "holaaaa", Toast.LENGTH_SHORT).show()
-            }
-        })
+        adaptador.cleardata()
+        adaptador.setdata(listdata)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +43,12 @@ class TareasFragment : Fragment() {
         tareasViewModel = ViewModelProviders.of(activity!!).get(TareasViewModel(activity!!.application)::class.java)
         tareasViewModel.getTareas().observe(this, Observer {
             manejador(it)
+        })
+        tareasViewModel.geteliminartarea().observe(this, Observer {
+            if(it != null){
+                respuestaEliminarTarea(it.mensaje)
+                consultarTareas()
+            }
         })
     }
 
@@ -100,7 +100,11 @@ class TareasFragment : Fragment() {
     }
 
     private fun iniRecycler(){
-        adaptador = AdapterTareas()
+        adaptador = AdapterTareas(clickClosure = {
+            navEditTareas(it.deproyectoid.toInt())
+        }, eliminaritemClosure = {it, index ->
+            eliminarTareas(it.deproyectoid.toInt(), index)
+        })
         RcTareas.setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
         RcTareas.layoutManager = layoutManager
@@ -109,5 +113,22 @@ class TareasFragment : Fragment() {
 
     private fun consultarTareas(){
         tareasViewModel.getallTareas(rta)
+    }
+
+    private fun eliminarTareas(deproyectoid: Int, index : Int){
+        alert {
+            title = "Esta seguro de eliminar tarea $deproyectoid ?"
+            message = "Al eliminar tarea no podra ser recuperada"
+            positiveButton ( "Si") {
+                tareasViewModel.eliminarTarea(deproyectoid)
+                adaptador.deleteItem(index)
+            }
+            negativeButton ( "No" ) {
+            }
+        }.show()
+    }
+
+    private fun respuestaEliminarTarea(mensaje: String){
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
     }
 }

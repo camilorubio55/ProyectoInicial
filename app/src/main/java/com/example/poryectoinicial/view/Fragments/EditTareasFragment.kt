@@ -28,7 +28,13 @@ class EditTareasFragment : Fragment() {
                 setData(it)
         })
         tareasViewModel.getinsertartarea().observe( this, Observer {
-            if (it != null)
+            if (it != null){
+                mostrarmensaje(it.mensaje)
+                regresaraGrid()
+            }
+        })
+        tareasViewModel.getactualizartarea().observe(this, Observer {
+            if(it != null)
                 mostrarmensaje(it.mensaje)
         })
     }
@@ -50,8 +56,15 @@ class EditTareasFragment : Fragment() {
             limpiarcampos()
         BtGuardarTarea.setOnClickListener {
             val objeto = construirobjeto()
-            insertarTarea(objeto)
+            if (rta != 0)
+                actualizarTarea(objeto)
+            else
+                insertarTarea(objeto)
         }
+    }
+
+    private fun regresaraGrid(){
+        activity?.onBackPressed()
     }
 
     private fun consultarDetalleTarea(){
@@ -62,7 +75,12 @@ class EditTareasFragment : Fragment() {
         tareasViewModel.insertarTarea(tarea)
     }
 
+    private fun actualizarTarea(tarea: Tarea){
+        tareasViewModel.actualizarTarea(tarea)
+    }
+
     private fun construirobjeto(): Tarea{
+        tarea.deproyectoid = rta.toString()
         tarea.proyectoid = EdNumProyecto.text.toString()
         tarea.titulo = EdTituloTarea.text.toString()
         tarea.descripcion = EdDescripcionTarea.text.toString()

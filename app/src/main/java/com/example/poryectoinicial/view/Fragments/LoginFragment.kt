@@ -52,22 +52,19 @@ class LoginFragment : Fragment() {
         val pass = EdPasswordLogin.text.toString()
         if(username.isNotEmpty() && pass.isNotEmpty()){
             consultarusuid(username, pass)
-            if(usuid != 0)
-                navProyectos(view)
         }
         else
             Toast.makeText(context,"Debe llenar los campos", Toast.LENGTH_SHORT).show()
     }
 
     private fun consultarusuid(username: String, pass: String){
-        loginViewModel.loginUsuario(username, pass)
+        loginViewModel.loginUsuario(username, pass) {
+            if(it != 0)
+                navProyectos()
+        }
     }
 
-    private fun navProyectos(view: View){
-        /*val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.replace(R.id.container, TabLayoutFragment.newInstance(*//*bundle*//*), TabLayoutFragment.TAG)
-        fragmentTransaction.addToBackStack(TAG)
-        fragmentTransaction.commit()*/
+    private fun navProyectos(/*view: View*/){
         val intent = Intent(activity, BaseActivity::class.java)
         activity?.startActivity(intent)
     }

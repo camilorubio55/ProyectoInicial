@@ -40,6 +40,12 @@ interface APIService {
 
     @POST("codigophp/API2/Controller/InsertarDeProyecto.php")
     fun insertartarea(@Body tarea: JsonObject): Call<ArrayList<Tarea>>
+
+    @POST("codigophp/API2/Controller/ActualizarDeProyecto.php")
+    fun actualizartarea(@Body tarea: JsonObject): Call<ArrayList<Tarea>>
+
+    @POST("codigophp/API2/Controller/EliminarDeProyecto.php")
+    fun eliminartarea(@Body tarea: JsonObject): Call<ArrayList<Tarea>>
 }
 
 object APIUtils{

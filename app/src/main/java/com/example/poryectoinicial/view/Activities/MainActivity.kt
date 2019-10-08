@@ -17,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     companion object {
         const val TAG = "MainActivity"
     }

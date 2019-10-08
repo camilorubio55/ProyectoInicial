@@ -29,11 +29,11 @@ class EditProyectosFragment : Fragment() {
         })
         proyectosViewModel.getactualizarproyecto().observe( this, Observer {
             if(it != null)
-                mostrarrespuesta(it)
+                mostrarrespuesta(it.mensaje)
         })
         proyectosViewModel.getinsertarproyecto().observe(this, Observer {
             if(it != null){
-                mostrarrespuesta(it)
+                mostrarrespuesta(it.mensaje)
                 regresaraGrid()
             }
         })
@@ -55,11 +55,13 @@ class EditProyectosFragment : Fragment() {
         else
             limpiarcampos()
         BtGuardarProyecto.setOnClickListener {
-            val objeto: Proyecto = construirobjeto()
-            if(rta != 0)
-                actualizarproyecto(objeto)
-            else
-                insertarproyecto(objeto)
+            if(validarcampos()){
+                val objeto: Proyecto = construirobjeto()
+                if(rta != 0)
+                    actualizarproyecto(objeto)
+                else
+                    insertarproyecto(objeto)
+            }
         }
     }
 
@@ -67,6 +69,30 @@ class EditProyectosFragment : Fragment() {
         super.onDestroyView()
         //proyectosViewModel.limpiarObjetos()
     }*/
+
+    private fun validarcampos(): Boolean{
+        if(EdTituloProyecto.text.isNullOrEmpty()){
+            EdTituloProyecto.error = "El titulo es obligatorio"
+            return false
+        }
+        if(EdDescripcionProyecto.text.isNullOrEmpty()){
+            EdDescripcionProyecto.error = "La descripcion es obligatoria"
+            return false
+        }
+        if(EdFechaEst.text.isNullOrEmpty()){
+            EdFechaEst.error = "La fecha estimada es obligatoria"
+            return false
+        }
+        if(EdFechaEnt.text.isNullOrEmpty()){
+            EdFechaEnt.error = "La fecha de entrega es obligatoria"
+            return false
+        }
+        if(EdHoras.text.isNullOrEmpty()){
+            EdHoras.error = "El numero de horas es obligatorio"
+            return false
+        }
+        return true
+    }
 
     private fun construirobjeto(): Proyecto{
         proyecto.proyectoid = rta.toString()
@@ -92,8 +118,8 @@ class EditProyectosFragment : Fragment() {
         proyectosViewModel.insertarProyecto(objeto)
     }
 
-    private fun mostrarrespuesta(respuesta: Proyecto){
-        Toast.makeText(context,respuesta.mensaje, Toast.LENGTH_SHORT).show()
+    private fun mostrarrespuesta(respuesta: String){
+        Toast.makeText(context,respuesta, Toast.LENGTH_SHORT).show()
     }
 
     private fun setData(detalleproyecto: Proyecto){

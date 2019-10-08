@@ -10,9 +10,10 @@ class LoginViewModel (application: Application) : AndroidViewModel(application){
     private  var loginRepositorioImpl: LoginRepositorioImpl? = LoginRepositorioImpl()
     private var usuid = MutableLiveData<Int>()
 
-    fun loginUsuario(username: String, pass: String){
+    fun loginUsuario(username: String, pass: String, rta : (Int) -> Unit){
         loginRepositorioImpl!!.loginAPI(username,pass){
             this.usuid.postValue(it)
+            rta(it)
         }
     }
 
