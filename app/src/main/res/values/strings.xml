@@ -13,4 +13,5 @@
     <string name="texto_btproyectos">Guardar proyecto</string>
     <string name="texto_bttareas">Guardar tarea</string>
     <string name="texto_numproyecto">N de proyecto</string>
+    <string name="texto_usuario">Usuario</string>
 </resources>

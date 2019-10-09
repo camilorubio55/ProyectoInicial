@@ -6,15 +6,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:splitMotionEvents="false">
         <activity android:name=".view.Activities.EditActivity"></activity>
         <activity android:name=".view.Activities.BaseActivity" />
-        <activity android:name=".view.Activities.TabLayoutActivity" />
         <activity
             android:name=".view.Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">

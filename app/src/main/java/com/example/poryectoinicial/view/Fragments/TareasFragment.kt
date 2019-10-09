@@ -47,7 +47,7 @@ class TareasFragment : Fragment() {
         tareasViewModel.geteliminartarea().observe(this, Observer {
             if(it != null){
                 respuestaEliminarTarea(it.mensaje)
-                consultarTareas()
+                //consultarTareas()
             }
         })
     }
@@ -63,6 +63,7 @@ class TareasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rta = LoginFragment.usuid
+        RcTareas.isMotionEventSplittingEnabled = false
         iniRecycler()
         SwRefreshTareas.setOnRefreshListener {
             SwRefreshTareas.isRefreshing = true

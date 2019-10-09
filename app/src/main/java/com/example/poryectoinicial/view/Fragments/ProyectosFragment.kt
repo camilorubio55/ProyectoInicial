@@ -1,14 +1,13 @@
 package com.example.poryectoinicial.view.Fragments
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,15 +16,12 @@ import com.example.poryectoinicial.viewmodel.ProyectosViewModel
 import kotlinx.android.synthetic.main.fragment_proyectos.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.poryectoinicial.LoadingDialogFragment
 import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.view.Activities.EditActivity
-import com.example.poryectoinicial.view.Interfaces.ClickListener
-import com.example.poryectoinicial.view.Interfaces.LongClickListener
 import org.jetbrains.anko.support.v4.alert
-import com.example.poryectoinicial.view.Activities.BaseActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
 
 class ProyectosFragment : Fragment() {
 
@@ -33,6 +29,8 @@ class ProyectosFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var adaptador: AdapterProyectos
     private var rta = 0
+    private var loadingDialog: LoadingDialogFragment? = null
+
 
     private fun manejador(listdata: List<Proyecto>){
         adaptador.clearData()
@@ -61,6 +59,7 @@ class ProyectosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rta = LoginFragment.usuid
+        showLoading("Loading")
         iniRecycler()
         consultarProyectos()
         SwRefresh.setOnRefreshListener {
@@ -72,17 +71,21 @@ class ProyectosFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        //val dialog = ProgressDialog.show(context, "Loading", "Please wait...", true)
+        //dialog.show()
         consultarProyectos()
         if (!userVisibleHint) {
             return
         }
-
         val btfloatproyectos = activity?.findViewById<FloatingActionButton>(R.id.BtFloatAction)
         btfloatproyectos?.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.colorAccent))
         btfloatproyectos?.setImageResource(R.drawable.ic_lightbulb)
+
         btfloatproyectos?.setOnClickListener{
             navEditProyectos(0)
         }
+        hideLoading()
+        //dialog.dismiss()
     }
 
     override fun setUserVisibleHint(visible: Boolean) {
@@ -131,6 +134,20 @@ class ProyectosFragment : Fragment() {
 
     private fun respuestaEliminarProyecto(respuesta: MutableList<Proyecto>){
         Toast.makeText(context, respuesta[0].mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    fun showLoading(message: String){
+        if(userVisibleHint && loadingDialog == null){
+            loadingDialog = LoadingDialogFragment.newInstance(message)
+            loadingDialog!!.show(childFragmentManager, LoadingDialogFragment.TAG)
+        }
+    }
+
+    fun hideLoading(){
+        if(loadingDialog != null){
+            loadingDialog!!.dismiss()
+            loadingDialog = null
+        }
     }
 
     companion object {

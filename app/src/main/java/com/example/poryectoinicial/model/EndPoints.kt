@@ -3,6 +3,7 @@ package com.example.poryectoinicial.model
 import com.example.poryectoinicial.model.Login.Login
 import com.example.poryectoinicial.model.Proyecto.Proyecto
 import com.example.poryectoinicial.model.Tareas.Tarea
+import com.example.poryectoinicial.model.Usuarios.Usuario
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,6 +47,9 @@ interface APIService {
 
     @POST("codigophp/API2/Controller/EliminarDeProyecto.php")
     fun eliminartarea(@Body tarea: JsonObject): Call<ArrayList<Tarea>>
+
+    @POST("codigophp/API2/Controller/GetAllUsuario.php")
+    fun getallusuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
 }
 
 object APIUtils{
