@@ -9,7 +9,7 @@ import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Usuarios.Usuario
 import kotlinx.android.synthetic.main.cardview_usuarios.view.*
 
-class AdapterUsuarios(val clickClosure: (Usuario) -> Unit): RecyclerView.Adapter<AdapterUsuarios.ViewHolder>() {
+class AdapterUsuarios(val clickClosure: (Usuario) -> Unit, val longClickClosure: (Usuario, index: Int) -> Unit): RecyclerView.Adapter<AdapterUsuarios.ViewHolder>() {
 
     private var items: MutableList<Usuario> = mutableListOf()
 
@@ -20,6 +20,11 @@ class AdapterUsuarios(val clickClosure: (Usuario) -> Unit): RecyclerView.Adapter
 
     fun clearData(){
         this.items.clear()
+    }
+
+    fun deleteItem(item: Int){
+        this.items.removeAt(item)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -42,6 +47,11 @@ class AdapterUsuarios(val clickClosure: (Usuario) -> Unit): RecyclerView.Adapter
 
             itemView.setOnClickListener {
                 clickClosure(item)
+            }
+
+            itemView.setOnLongClickListener {
+                longClickClosure(item,index)
+                true
             }
         }
     }

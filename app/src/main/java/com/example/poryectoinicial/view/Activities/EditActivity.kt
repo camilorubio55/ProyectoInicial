@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.poryectoinicial.R
 import com.example.poryectoinicial.view.Fragments.EditProyectosFragment
 import com.example.poryectoinicial.view.Fragments.EditTareasFragment
+import com.example.poryectoinicial.view.Fragments.EditUsuariosFragment
 
 class EditActivity : AppCompatActivity() {
 
@@ -13,11 +14,11 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
         intent.extras.let {
-            val proyecto = it?.getInt("PROYECTO")
-            if (proyecto == 1)
-                proyectoFragment(it.getString("PROYECTOID", "PROYECTOID"))
-            else
-                tareaFragment(it!!.getString("DEPROYECTOID", "DEPROYECTOID"))
+            when (it!!.getInt("ITEM")) {
+                1 -> proyectoFragment(it.getString("PROYECTOID", "PROYECTOID"))
+                2 -> tareaFragment(it.getString("DEPROYECTOID", "DEPROYECTOID"))
+                else -> usuarioFragment(it.getString("USUID", "USUID"))
+            }
         }
     }
 
@@ -35,6 +36,15 @@ class EditActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("DEPROYECTOID",deproyectoid)
         fragmentTransaction.replace(R.id.containeredit, EditTareasFragment.newInstance(bundle), EditTareasFragment.TAG)
+        fragmentTransaction.addToBackStack(TAG)
+        fragmentTransaction.commit()
+    }
+
+    fun usuarioFragment(usuid : String){
+        val bundle = Bundle()
+        bundle.putString("USUID",usuid)
+        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.containeredit, EditUsuariosFragment.newInstance(bundle), EditUsuariosFragment.TAG)
         fragmentTransaction.addToBackStack(TAG)
         fragmentTransaction.commit()
     }

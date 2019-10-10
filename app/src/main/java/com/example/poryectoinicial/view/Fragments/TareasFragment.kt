@@ -95,6 +95,7 @@ class TareasFragment : Fragment() {
 
     private fun navEditTareas(deproyectoid: Int){
         Intent(activity, EditActivity::class.java).run {
+            putExtra("ITEM", 2)
             putExtra("DEPROYECTOID", deproyectoid.toString())
             startActivity(this)
         }

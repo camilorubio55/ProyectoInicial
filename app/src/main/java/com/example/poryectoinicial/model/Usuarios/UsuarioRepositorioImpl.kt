@@ -23,12 +23,88 @@ class UsuarioRepositorioImpl {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Usuario>>, response: Response<ArrayList<Usuario>>) {
-                    val tarea = response.body() as MutableList<Usuario>
-                    completion(tarea)
+                    val usuario = response.body() as MutableList<Usuario>
+                    completion(usuario)
                 }
             })
         }catch (e: Exception){
             e.stackTrace
         }
     }
+
+    fun getdataUsuarioAPI(usuidsesion:Int, usuid: Int, completion: (Usuario) -> Unit){
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("usuidsesion", usuidsesion)
+        jsonObject.addProperty("usuid", usuid)
+        val mAPIService: APIService = APIUtils.apiService
+        try {
+            mAPIService.getdatausuario(jsonObject).enqueue(object :
+                Callback<ArrayList<Usuario>> {
+                override fun onFailure(call: Call<ArrayList<Usuario>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Usuario>>, response: Response<ArrayList<Usuario>>) {
+                    val usuario = response.body()!![0]
+                    completion(usuario)
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
+    }
+
+    fun eliminarUsuarioAPI(usuidsesion: Int, usuid: Int, completion: (Usuario) -> Unit){
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("usuidsesion", usuidsesion)
+        jsonObject.addProperty("usuid", usuid)
+        val mAPIService: APIService = APIUtils.apiService
+        try {
+            mAPIService.eliminarusuario(jsonObject).enqueue(object :
+                Callback<ArrayList<Usuario>> {
+                override fun onFailure(call: Call<ArrayList<Usuario>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Usuario>>, response: Response<ArrayList<Usuario>>) {
+                    val usuario = response.body()!![0]
+                    completion(usuario)
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
+    }
+
+    fun insertarUsuarioAPI(usuario: Usuario, completion: (Usuario) -> Unit){
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("codigo", usuario.codigo)
+        jsonObject.addProperty("contrasena", usuario.contrasena)
+        jsonObject.addProperty("nombre", usuario.nombre)
+        jsonObject.addProperty("rol", usuario.rol)
+        jsonObject.addProperty("email", usuario.email)
+        jsonObject.addProperty("telefono", usuario.telefono)
+        jsonObject.addProperty("usuidsesion", usuario.usuidsesion)
+        val mAPIService: APIService = APIUtils.apiService
+        try {
+            mAPIService.insertarusuario(jsonObject).enqueue(object :
+                Callback<ArrayList<Usuario>> {
+                override fun onFailure(call: Call<ArrayList<Usuario>>, t: Throwable) {
+                    Log.d("--- respuestaonF", "onFailure")
+                    t.printStackTrace()
+                }
+
+                override fun onResponse(call: Call<ArrayList<Usuario>>, response: Response<ArrayList<Usuario>>) {
+                    val usuario = response.body()!![0]
+                    completion(usuario)
+                }
+            })
+        }catch (e: Exception){
+            e.stackTrace
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.poryectoinicial.view.Fragments
 
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,11 +16,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 
 import com.example.poryectoinicial.R
 import com.example.poryectoinicial.model.Usuarios.Usuario
+import com.example.poryectoinicial.view.Activities.EditActivity
 import com.example.poryectoinicial.view.Adapters.AdapterUsuarios
 import com.example.poryectoinicial.viewmodel.UsuariosViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_usuarios.*
 import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.alert
 
 class UsuariosFragment : Fragment() {
 
@@ -35,8 +38,17 @@ class UsuariosFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         usuariosViewModel = ViewModelProviders.of(activity!!).get(UsuariosViewModel(activity!!.application)::class.java)
-        usuariosViewModel.getUsuario().observe(this, Observer {
-            manejador(it)
+        usuariosViewModel.getUsuarios().observe(this, Observer {
+            if(it != null)
+                manejador(it)
+        })
+        usuariosViewModel.geteliminarusuario().observe(this, Observer {
+            if(it != null)
+                mostrarmensaje(it.mensaje)
+        })
+        usuariosViewModel.getinsertarUsuario().observe(this, Observer {
+            if (it != null)
+                mostrarmensaje(it.mensaje)
         })
     }
 
@@ -52,6 +64,11 @@ class UsuariosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rta = LoginFragment.usuid
         iniRecycler()
+        SwRefreshUsuarios.setOnRefreshListener {
+            SwRefreshUsuarios.isRefreshing = true
+            consultarusuarios(rta)
+            SwRefreshUsuarios.isRefreshing = false
+        }
     }
 
     override fun onResume() {
@@ -63,9 +80,9 @@ class UsuariosFragment : Fragment() {
         val btfloatusuarios = activity?.findViewById<FloatingActionButton>(R.id.BtFloatAction)
         btfloatusuarios?.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.colorFloatActionBUsuarios))
         btfloatusuarios?.setImageResource(R.drawable.ic_followers)
-        /*btfloatusuarios?.setOnLongClickListener {
-            //Toast.makeText(this, "hola", Toast.LENGTH_SHORT).show()
-        }*/
+        btfloatusuarios?.setOnClickListener{
+            navEditUsuario(0)
+        }
     }
 
     override fun setUserVisibleHint(visible: Boolean) {
@@ -79,14 +96,38 @@ class UsuariosFragment : Fragment() {
         usuariosViewModel.getallUsuarios(usuid)
     }
 
-    private fun iniRecycler(){
-        adaptador = AdapterUsuarios(clickClosure = {
-
-        })
-        RcUsuarios.setHasFixedSize(true)
-        /*layoutManager = GridLayoutManager(context)
-        RcUsuarios.layoutManager = layoutManager*/
-        RcUsuarios.adapter = adaptador
+    private fun eliminarusuario(usuid: Int, index: Int){
+        alert {
+            title = "Esta seguro de eliminar usuario $usuid ?"
+            message = "Al eliminar usuario no podra ser recuperada"
+            positiveButton ( "Si") {
+                usuariosViewModel.eliminarUsuario(rta, usuid)
+                adaptador.deleteItem(index)
+            }
+            negativeButton ( "No" ) {
+            }
+        }.show()
     }
 
+    fun navEditUsuario(usuid: Int){
+        Intent(activity, EditActivity::class.java).run {
+            putExtra("ITEM", 3)
+            putExtra("USUID", usuid.toString())
+            startActivity(this)
+        }
+    }
+
+    fun mostrarmensaje(mensaje: String){
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun iniRecycler(){
+        adaptador = AdapterUsuarios(clickClosure = {
+            navEditUsuario(it.usuid.toInt())
+        }, longClickClosure = {it, index ->
+            eliminarusuario(it.usuid.toInt(), index)
+        })
+        RcUsuarios.setHasFixedSize(true)
+        RcUsuarios.adapter = adaptador
+    }
 }

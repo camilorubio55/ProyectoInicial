@@ -31,7 +31,7 @@ class LoadingDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        GlideApp.with(this).load(R.drawable.wait).into(iconLoading)
+        //GlideApp.with(this).load(R.drawable.wait).into(iconLoading)
     }
 
     companion object{

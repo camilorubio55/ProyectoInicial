@@ -12,7 +12,7 @@
         android:usesCleartextTraffic="true"
         android:splitMotionEvents="false">
         <activity android:name=".view.Activities.EditActivity"></activity>
-        <activity android:name=".view.Activities.BaseActivity" />
+        <activity android:name=".view.Activities.BaseActivity"></activity>
         <activity
             android:name=".view.Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">

@@ -113,7 +113,7 @@ class ProyectosFragment : Fragment() {
 
     private fun navEditProyectos(proyectoid: Int?){
         Intent(activity, EditActivity::class.java).run {
-            putExtra("PROYECTO", 1)
+            putExtra("ITEM", 1)
             putExtra("PROYECTOID", proyectoid.toString())
             startActivity(this)
         }

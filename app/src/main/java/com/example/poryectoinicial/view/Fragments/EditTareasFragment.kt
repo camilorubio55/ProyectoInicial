@@ -99,7 +99,7 @@ class EditTareasFragment : Fragment() {
     }
 
     private fun mostrarmensaje(mensaje : String){
-        Toast.makeText(context, "$mensaje", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
     }
 
     private fun limpiarcampos(){

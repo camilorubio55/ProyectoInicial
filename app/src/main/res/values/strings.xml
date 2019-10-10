@@ -14,4 +14,10 @@
     <string name="texto_bttareas">Guardar tarea</string>
     <string name="texto_numproyecto">N de proyecto</string>
     <string name="texto_usuario">Usuario</string>
+    <string name="texto_telefono">Telefono</string>
+    <string name="texto_correo">E-mail</string>
+    <string name="texto_nombre">Nombre</string>
+    <string name="texto_contrasena">Contraseña</string>
+    <string name="texto_btusuarios">Guardar usuario</string>
+    <string name="texto_admin">Admin</string>
 </resources>

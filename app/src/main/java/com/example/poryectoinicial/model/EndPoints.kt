@@ -50,6 +50,15 @@ interface APIService {
 
     @POST("codigophp/API2/Controller/GetAllUsuario.php")
     fun getallusuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
+
+    @POST("codigophp/API2/Controller/GetDataUsuario.php")
+    fun getdatausuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
+
+    @POST("codigophp/API2/Controller/EliminarUsuario.php")
+    fun eliminarusuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
+
+    @POST("codigophp/API2/Controller/InsertarUsuario.php")
+    fun insertarusuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
 }
 
 object APIUtils{
