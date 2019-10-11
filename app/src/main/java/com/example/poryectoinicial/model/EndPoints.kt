@@ -59,18 +59,21 @@ interface APIService {
 
     @POST("codigophp/API2/Controller/InsertarUsuario.php")
     fun insertarusuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
+
+    @POST("codigophp/API2/Controller/ActualizarUsuario.php")
+    fun actualizarusuario(@Body usuario: JsonObject): Call<ArrayList<Usuario>>
 }
 
 object APIUtils{
     //val BaseUrl = "http://192.168.1.69:80/"
-    val BaseUrl = "http://192.168.0.71:81/"
+    const val BaseUrl = "http://192.168.0.71:81/"
     val apiService: APIService
         get() = RetrofitClient.getClient(BaseUrl)!!.create(APIService::class.java)
 }
 
 object RetrofitClient{
 
-    var retrofit: Retrofit? = null
+    private var retrofit: Retrofit? = null
 
     fun  getClient(baseUrl: String): Retrofit?{
         if(retrofit == null){

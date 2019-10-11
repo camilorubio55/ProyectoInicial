@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -27,6 +28,16 @@ class EditUsuariosFragment : Fragment() {
             if(it != null)
                 setData(it)
         })
+        usuariosViewModel.getinsertarUsuario().observe(this, Observer {
+            if(it != null){
+                mostrarmensaje(it.mensaje)
+                regresaraGrid()
+            }
+        })
+        usuariosViewModel.getactualizarUsuario().observe(this, Observer {
+            if(it != null)
+                mostrarmensaje(it.mensaje)
+        })
     }
 
     override fun onCreateView(
@@ -47,15 +58,37 @@ class EditUsuariosFragment : Fragment() {
             limpiarCampos()
 
         BtGuardarUsuario.setOnClickListener {
-
+            if(validarCampos()){
+                val objeto = construirobjeto()
+                if(rta != 0)
+                    actualizarUsuario(objeto)
+                else
+                    insertarUsuario(objeto)
+            }
         }
     }
 
-    fun consultarUsuarios(usuidsesion: Int){
+    private fun consultarUsuarios(usuidsesion: Int){
         usuariosViewModel.getdataUsuario(usuidsesion,rta)
     }
 
-    fun limpiarCampos(){
+    private fun insertarUsuario(usuario: Usuario){
+        usuariosViewModel.insertarUsuario(usuario)
+    }
+
+    private fun actualizarUsuario(usuario: Usuario){
+        usuariosViewModel.actualizarUsuario(usuario)
+    }
+
+    fun mostrarmensaje(mensaje: String){
+        Toast.makeText(context,mensaje,Toast.LENGTH_SHORT).show()
+    }
+
+    private fun regresaraGrid(){
+        activity?.onBackPressed()
+    }
+
+    private fun limpiarCampos(){
         EdUsuario.setText("")
         EdNombre.setText("")
         EdEmail.setText("")
@@ -63,22 +96,55 @@ class EditUsuariosFragment : Fragment() {
         EdContrasena.setText("")
     }
 
-    fun setData(usuario: Usuario){
+    private fun validarCampos() : Boolean{
+        when {
+            EdUsuario.text.isNullOrEmpty() -> {
+                EdUsuario.error = "El usuario es obligatorio"
+                return false
+            }
+            EdNombre.text.isNullOrEmpty() -> {
+                EdNombre.error = "El nombre es obligatorio"
+                return false
+            }
+            EdEmail.text.isNullOrEmpty() -> {
+                EdEmail.error = "El email es obligatorio"
+                return false
+            }
+            EdContrasena.text.isNullOrEmpty() -> {
+                EdContrasena.error = "La contraseña es obligatoria"
+                return false
+            }
+            EdTelefono.text.isNullOrEmpty() -> {
+                EdTelefono.error = "El telefono es obligatorio"
+                return false
+            }
+            else -> return true
+        }
+
+    }
+
+    private fun setData(usuario: Usuario){
         EdUsuario.setText(usuario.codigo)
         EdNombre.setText(usuario.nombre)
         EdEmail.setText(usuario.email)
         EdTelefono.setText(usuario.telefono)
         EdContrasena.setText(usuario.contrasena)
+        ChkAdmin.isChecked = usuario.rol == "1"
     }
 
-    fun construirobjeto(): Usuario{
+    private fun construirobjeto(): Usuario{
+        var checkeado = "0"
+        if (ChkAdmin.isChecked)
+            checkeado = "1"
+
+        usuario.usuid = rta.toString()
         usuario.usuidsesion = LoginFragment.usuid.toString()
         usuario.codigo = EdUsuario.text.toString()
         usuario.nombre = EdNombre.text.toString()
         usuario.email = EdEmail.text.toString()
         usuario.telefono = EdTelefono.text.toString()
         usuario.contrasena = EdContrasena.text.toString()
-        usuario.rol = ChkAdmin.text.toString()
+        usuario.rol = checkeado
 
         return  usuario
     }

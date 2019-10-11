@@ -14,6 +14,7 @@ class UsuariosViewModel(application: Application): AndroidViewModel(application)
     private var usuario = MutableLiveData<Usuario>()
     private var eliminarusuario = MutableLiveData<Usuario>()
     private var insertarusuario = MutableLiveData<Usuario>()
+    private var actualizarusuario = MutableLiveData<Usuario>()
 
     fun getallUsuarios(usuid: Int){
        usuarioRepositorioImpl.getallUsuariosAPI(usuid){
@@ -45,5 +46,13 @@ class UsuariosViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
-    fun getinsertarUsuario(): LiveData<Usuario> = this.eliminarusuario
+    fun getinsertarUsuario(): LiveData<Usuario> = this.insertarusuario
+
+    fun actualizarUsuario(usuario: Usuario){
+        usuarioRepositorioImpl.actualizarUsuarioAPI(usuario){
+            this.actualizarusuario.value = it
+        }
+    }
+
+    fun getactualizarUsuario(): LiveData<Usuario> = this.actualizarusuario
 }

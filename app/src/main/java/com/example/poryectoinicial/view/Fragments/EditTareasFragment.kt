@@ -55,11 +55,13 @@ class EditTareasFragment : Fragment() {
         else
             limpiarcampos()
         BtGuardarTarea.setOnClickListener {
-            val objeto = construirobjeto()
-            if (rta != 0)
-                actualizarTarea(objeto)
-            else
-                insertarTarea(objeto)
+            if (validarCampos()) {
+                val objeto = construirobjeto()
+                if (rta != 0)
+                    actualizarTarea(objeto)
+                else
+                    insertarTarea(objeto)
+            }
         }
     }
 
@@ -107,6 +109,24 @@ class EditTareasFragment : Fragment() {
         EdDescripcionTarea.setText("")
         EdFecha.setText("")
         EdNumProyecto.setText("")
+    }
+
+    private fun validarCampos(): Boolean{
+        return when{
+            EdTituloTarea.text.isNullOrEmpty() -> {
+                EdTituloTarea.error = "El titulo es obligatorio"
+                false
+            }
+            EdDescripcionTarea.text.isNullOrEmpty() -> {
+                EdDescripcionTarea.error = "La descripcion es obligatoria"
+                false
+            }
+            EdFecha.text.isNullOrEmpty() -> {
+                EdFecha.error = "La fecha es obligatoria"
+                false
+            }
+            else -> true
+        }
     }
 
     companion object {

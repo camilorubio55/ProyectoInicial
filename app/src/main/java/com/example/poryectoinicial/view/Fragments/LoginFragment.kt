@@ -1,6 +1,7 @@
 package com.example.poryectoinicial.view.Fragments
 
 
+import android.app.ActivityOptions
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -65,8 +66,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun navProyectos(/*view: View*/){
-        val intent = Intent(activity, BaseActivity::class.java)
-        activity?.startActivity(intent)
+        var opciones= ActivityOptions.makeSceneTransitionAnimation(activity)
+        var intent = Intent(activity,BaseActivity::class.java)
+        startActivity(intent,opciones.toBundle())
+        //val intent = Intent(activity, BaseActivity::class.java)
+        //activity?.startActivity(intent)
     }
 
     companion object {

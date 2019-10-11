@@ -71,27 +71,29 @@ class EditProyectosFragment : Fragment() {
     }*/
 
     private fun validarcampos(): Boolean{
-        if(EdTituloProyecto.text.isNullOrEmpty()){
-            EdTituloProyecto.error = "El titulo es obligatorio"
-            return false
+        when {
+            EdTituloProyecto.text.isNullOrEmpty() -> {
+                EdTituloProyecto.error = "El titulo es obligatorio"
+                return false
+            }
+            EdDescripcionProyecto.text.isNullOrEmpty() -> {
+                EdDescripcionProyecto.error = "La descripcion es obligatoria"
+                return false
+            }
+            EdFechaEst.text.isNullOrEmpty() -> {
+                EdFechaEst.error = "La fecha estimada es obligatoria"
+                return false
+            }
+            EdFechaEnt.text.isNullOrEmpty() -> {
+                EdFechaEnt.error = "La fecha de entrega es obligatoria"
+                return false
+            }
+            EdHoras.text.isNullOrEmpty() -> {
+                EdHoras.error = "El numero de horas es obligatorio"
+                return false
+            }
+            else -> return true
         }
-        if(EdDescripcionProyecto.text.isNullOrEmpty()){
-            EdDescripcionProyecto.error = "La descripcion es obligatoria"
-            return false
-        }
-        if(EdFechaEst.text.isNullOrEmpty()){
-            EdFechaEst.error = "La fecha estimada es obligatoria"
-            return false
-        }
-        if(EdFechaEnt.text.isNullOrEmpty()){
-            EdFechaEnt.error = "La fecha de entrega es obligatoria"
-            return false
-        }
-        if(EdHoras.text.isNullOrEmpty()){
-            EdHoras.error = "El numero de horas es obligatorio"
-            return false
-        }
-        return true
     }
 
     private fun construirobjeto(): Proyecto{
