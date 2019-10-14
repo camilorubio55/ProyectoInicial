@@ -22,7 +22,7 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
-    fun proyectoFragment(proyectoid : String){
+    private fun proyectoFragment(proyectoid : String){
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         val bundle = Bundle()
         bundle.putString("PROYECTOID",proyectoid)
@@ -31,7 +31,7 @@ class EditActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    fun tareaFragment(deproyectoid : String){
+    private fun tareaFragment(deproyectoid : String){
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         val bundle = Bundle()
         bundle.putString("DEPROYECTOID",deproyectoid)
@@ -40,7 +40,7 @@ class EditActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    fun usuarioFragment(usuid : String){
+    private fun usuarioFragment(usuid : String){
         val bundle = Bundle()
         bundle.putString("USUID",usuid)
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()

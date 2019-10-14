@@ -87,6 +87,7 @@ class UsuarioRepositorioImpl {
         jsonObject.addProperty("usuidsesion", usuario.usuidsesion)
         jsonObject.addProperty("email", usuario.email)
         jsonObject.addProperty("telefono", usuario.telefono)
+        jsonObject.addProperty("inactivo", usuario.inactivo)
         val mAPIService: APIService = APIUtils.apiService
         try {
             mAPIService.insertarusuario(jsonObject).enqueue(object :
@@ -116,6 +117,7 @@ class UsuarioRepositorioImpl {
         jsonObject.addProperty("rol", usuario.rol)
         jsonObject.addProperty("email", usuario.email)
         jsonObject.addProperty("telefono", usuario.telefono)
+        jsonObject.addProperty("inactivo", usuario.inactivo)
         val mAPIService: APIService = APIUtils.apiService
         try {
             mAPIService.actualizarusuario(jsonObject).enqueue(object :

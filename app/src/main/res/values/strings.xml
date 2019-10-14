@@ -20,4 +20,5 @@
     <string name="texto_contrasena">Contraseña</string>
     <string name="texto_btusuarios">Guardar usuario</string>
     <string name="texto_admin">Admin</string>
+    <string name="texto_inactivo">Usuario inactivo</string>
 </resources>
