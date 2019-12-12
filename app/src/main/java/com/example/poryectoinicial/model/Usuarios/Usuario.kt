@@ -12,4 +12,5 @@ class Usuario {
     var contrasena: String = ""
     var rol: String = ""
     var inactivo: String = ""
+    var imagen: String = ""
 }

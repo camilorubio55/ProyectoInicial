@@ -205,7 +205,6 @@ class EditUsuariosFragment : Fragment() {
             }
             else -> return true
         }
-
     }
 
     private fun setData(usuario: Usuario){
@@ -236,6 +235,7 @@ class EditUsuariosFragment : Fragment() {
         usuario.contrasena = EdContrasena.text.toString()
         usuario.rol = checkeado
         usuario.inactivo = inactivo
+        //usuario.imagen = ImagePerfil.drawable as ByteArray
 
         return  usuario
     }

@@ -1,6 +1,7 @@
 package com.example.poryectoinicial.model.Proyecto
 
 import android.util.Log
+import androidx.annotation.UiThread
 import com.example.poryectoinicial.model.APIService
 import com.example.poryectoinicial.model.APIUtils
 import com.google.gson.JsonObject
@@ -24,6 +25,7 @@ class ProyectoRepositorioImpl {
 
                 override fun onResponse(call: Call<ArrayList<Proyecto>>, response: Response<ArrayList<Proyecto>>) {
                     val proyect = response.body() as MutableList<Proyecto>
+
                     completion(proyect)
                 }
             })
